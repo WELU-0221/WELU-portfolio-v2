@@ -496,3 +496,7 @@ contributors and AI agents no structured map of the system.
 **When building.** Docs are maintained alongside code — see [[meta/README]] for
 the maintenance rules, and [[agent-harness]] for how the vault and `.claude/`
 divide the work.
+
+
+## 2026-09-10 — WELU portfolio
+Home is a fast editorial directory; five statically generated /projects/[slug]/ case studies own the scroll narrative. User explicitly authorized GSAP/ScrollTrigger, overriding the starter's springs-only restriction. React Spring remains for index hover and page entry; the vendored spring engine is unchanged. Lenis and GSAP share a single ticker. Case motion uses matchMedia cleanup, skips reduced motion and disables pin on small screens. Added portfolio data, ProjectIndex, ProjectVisual, CaseMotion, CaseSection, WorkflowSection, PageEntry, SiteHeader and SiteFooter. All unknown content is explicitly pending; robot team systems are distinguished from personal responsibilities. Static export and Pages workflow replace the unused server contact example. Root typography uses readable fixed base sizing rather than adaptive viewport font scaling; WELU tokens come from the user brief, not a Figma file.

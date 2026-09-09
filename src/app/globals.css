@@ -1,122 +1,45 @@
-/* `source("../")` limits class detection to `src/` (this file lives in src/app).
-   Without it Tailwind v4 scans the whole repo — including obsidian/ and .claude/,
-   where documented class *patterns* like duration-[var(--duration-*)] parse as
-   real candidates and emit CSS warnings. Docs are not a source of utilities. */
 @import "tailwindcss" source("../");
-
-/* ---------------------------------------------------------------------------
-   TIER 1 — PRIMITIVES  (`--raw-*`)
-   Raw literal values. The only tier allowed to contain a hex/px/ms literal.
-   Never referenced in markup, never bound into @theme. Rename freely.
-   Grammar: --raw-<category>-<name>[-<shade>]
-   See obsidian/frontend/design-system.md → "Token naming convention".
-   --------------------------------------------------------------------------- */
+@import "lenis/dist/lenis.css";
+/* WELU editorial direction: warm paper, navy ink, restrained coral and violet. */
 :root {
-  --raw-color-white: #ffffff;
-  --raw-color-neutral-100: #ededed;
-  --raw-color-neutral-900: #171717;
-  --raw-color-neutral-950: #0a0a0a;
-
-  --raw-duration-fast: 150ms;
-  --raw-duration-normal: 250ms;
+  --raw-color-paper: #f4f3ee; --raw-color-ink: #16283b;
+  --raw-color-muted: #586571; --raw-color-line: #cbd0cf;
+  --raw-color-surface: #e5e8e4; --raw-color-accent: #b74731;
+  --raw-color-violet: #69609b; --raw-color-light: #faf9f5;
+  --raw-size-content: 80rem; --raw-size-display: clamp(5.4rem, 18vw, 16rem);
+  --raw-size-title: clamp(2rem, 4.8vw, 4.5rem);
+  --raw-size-heading: clamp(1.7rem, 3.2vw, 3rem);
+  --raw-size-gutter: clamp(1.25rem, 4vw, 4rem);
+  --raw-size-section: clamp(4rem, 9vw, 8rem);
+  --raw-leading-display: 1.15; --raw-tracking-display: -0.065em;
+  --raw-duration-fast: 180ms; --raw-ease-entrance: cubic-bezier(0.2,0,0,1);
+  --raw-size-perspective: 1000px; --raw-size-type: 16px;
+  --raw-font-sans: Arial, "Microsoft JhengHei", "PingFang TC", sans-serif;
+  --background: var(--raw-color-paper); --foreground: var(--raw-color-ink);
+  --muted: var(--raw-color-muted); --line: var(--raw-color-line);
+  --surface: var(--raw-color-surface); --accent: var(--raw-color-accent);
+  --secondary: var(--raw-color-violet); --inverse: var(--raw-color-light);
+  --content: var(--raw-size-content); --display: var(--raw-size-display);
+  --title: var(--raw-size-title); --heading: var(--raw-size-heading);
+  --gutter: var(--raw-size-gutter); --section: var(--raw-size-section);
+  --leading-display: var(--raw-leading-display); --tracking-display: var(--raw-tracking-display);
+  --duration-fast: var(--raw-duration-fast); --ease-entrance: var(--raw-ease-entrance);
+  --perspective: var(--raw-size-perspective); --base-type: var(--raw-size-type);
+  --body-font: var(--raw-font-sans);
 }
-
-/* ---------------------------------------------------------------------------
-   TIER 2 — SEMANTIC  (role names, no namespace prefix)
-   Purpose, not appearance. Always `var(--raw-*)` — never a literal.
-   This is the themeable layer: dark mode overrides happen HERE, which is why
-   these are separate from the @theme bindings below (see the note there).
-   Grammar: --<role>[-<variant>][-<state>]
-   --------------------------------------------------------------------------- */
-:root {
-  --background: var(--raw-color-white);
-  --foreground: var(--raw-color-neutral-900);
-
-  --duration-fast: var(--raw-duration-fast);
-  --duration-normal: var(--raw-duration-normal);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: var(--raw-color-neutral-950);
-    --foreground: var(--raw-color-neutral-100);
-  }
-}
-
-/* ---------------------------------------------------------------------------
-   THEME BINDINGS — map semantic tokens into Tailwind namespaces.
-   Every entry is exactly `--<tw-namespace>-<role>: var(--<role>)`.
-   `inline` is required: it inlines the var() into each utility, so the
-   dark-mode overrides on the Tier 2 tokens above cascade. Binding a literal
-   here instead would freeze the value and break theming.
-
-   Only these namespaces generate utilities (verified against tailwindcss
-   v4.3.3): --color-* --spacing-* --radius-* --leading-* --tracking-* --text-*
-   --font-* --ease-* --breakpoint-* --container-* --shadow-* --blur-* --animate-*
-   NOTE: there is NO --duration-* namespace in v4 — `duration-fast` compiles to
-   nothing. Durations stay Tier 2 only and are used as duration-[var(--duration-fast)].
-   --------------------------------------------------------------------------- */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-onest);
-
-  /* Leading floor for clipped TextEngine reveals — see
-     obsidian/frontend/text-engine.md → "Alignment & line-height". */
-  --leading-display: 1.1;
-
-  --ease-entrance: cubic-bezier(0.2, 0, 0, 1);
+  --color-background: var(--background); --color-foreground: var(--foreground);
+  --color-muted: var(--muted); --color-line: var(--line); --color-surface: var(--surface);
+  --color-accent: var(--accent); --color-secondary: var(--secondary); --color-inverse: var(--inverse);
+  --container-content: var(--content); --text-display: var(--display); --text-title: var(--title);
+  --text-heading: var(--heading); --spacing-gutter: var(--gutter); --spacing-section: var(--section);
+  --leading-display: var(--leading-display); --tracking-display: var(--tracking-display);
+  --font-sans: var(--body-font); --ease-entrance: var(--ease-entrance);
 }
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  width: 100vw;
-}
-
 @layer base {
-  /* Adaptive scaling grid — scales the root font-size with the viewport so a
-     rem-based layout stays proportional. Each breakpoint divides FONT_BASE
-     (16px) by the design base width its range was laid out at:
-       font-size: 16 * 100 / baseWidth  (vw)
-     Above 1920px the AdaptiveGrid component takes over (scale-up).
-     Keep in sync with src/components/common/grid/grid.config.ts. */
-  html {
-    font-size: 16px;
-  }
-
-  @media (max-width: 1920px) {
-    html {
-      font-size: 0.833333vw; /* 16 * 100 / 1920 */
-    }
-  }
-
-  @media (max-width: 1440px) {
-    html {
-      font-size: 1.111111vw; /* 16 * 100 / 1440 */
-    }
-  }
-
-  @media (max-width: 1024px) {
-    html {
-      font-size: 1.5625vw; /* 16 * 100 / 1024 */
-    }
-  }
-
-  @media (max-width: 640px) {
-    html {
-      font-size: 4.444444vw; /* 16 * 100 / 360 */
-    }
-  }
-}
-
-@layer utilities {
-}
-
-@layer components {
+  html { font-size: var(--base-type); scroll-padding-top: calc(var(--spacing) * 24); }
+  body { margin: 0; background: var(--background); color: var(--foreground); font-family: var(--body-font); }
+  ::selection { background: var(--foreground); color: var(--background); }
+  :focus-visible { outline: solid var(--accent); outline-offset: calc(var(--spacing) * 2); }
+  button, a { -webkit-tap-highlight-color: transparent; }
 }

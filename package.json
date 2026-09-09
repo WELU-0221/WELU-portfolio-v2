@@ -1,12 +1,11 @@
 {
-  "name": "next16-claude-starter",
+  "name": "welu-portfolio",
   "version": "0.1.0",
   "private": true,
   "license": "Unlicense",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
@@ -18,7 +17,8 @@
     "resize-observer-polyfill": "^1.5.1",
     "spring-text-engine": "^0.1.5",
     "zod": "^4.4.3",
-    "zustand": "^5.0.15"
+    "zustand": "^5.0.15",
+    "gsap": "3.13.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
@@ -32,5 +32,6 @@
   },
   "engines": {
     "node": ">=20.19.0"
-  }
+  },
+  "packageManager": "yarn@1.22.22"
 }

@@ -1,0 +1,15 @@
+# WELU QA — 2026-09-10
+- verify.sh: 0 FAIL, 2 WARN. Theme-color literal is valid metadata; arbitrary sizes remain in unused, unmodified Cookie components.
+- yarn lint: passed.
+- yarn build: passed for root and /my-new-site base path; six content pages statically exported.
+- 151 local asset, link and anchor references checked; each page has one h1.
+- Browser at 1280px: homepage has zero pin spacers; detail has one; scrub changes visual transform.
+- Keyboard focus reveals directory preview; Next Project navigation works, including Socket → Design Platform → AI Dancing Robot.
+- AI case has two workflows and Robot System convergence; team attribution visible.
+- Browser at 320px: document scroll width 305px, no overflow on index or AI detail; no pin spacers.
+- Returning home removes detail pin spacers. No browser errors recorded.
+- Reduced-motion branches reviewed in source; OS preference emulation was not available in the browser tool.
+- No supplied Figma reference; typography and palette tokens were chosen from the user's editorial engineering brief.
+- Images and unspecified claims remain placeholders. Email is intentionally unset.
+- No GitHub publication performed. .github/workflows/pages.yml builds using the configured Pages base URL/path.
+- Old Flask git status remains clean; vendored animation engine diff is empty.

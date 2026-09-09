@@ -45,8 +45,8 @@ report FAIL "CSS keyframes are banned" \
   "$(SRC '@keyframes'; CSS '@keyframes')"
 
 report FAIL "third-party animation library" \
-  "Only @react-spring/web + spring-text-engine. No framer-motion, no GSAP." \
-  "$(SRC "from ['\"](framer-motion|gsap|motion/react|@motionone|animejs)")"
+  "React Spring and user-authorized GSAP are allowed. No other animation libraries." \
+  "$(SRC "from ['\"](framer-motion|motion/react|@motionone|animejs)")"
 
 report FAIL 'TextEngine mode="manual"' \
   "Use always / once / forward / progress — see obsidian/frontend/text-engine.md." \

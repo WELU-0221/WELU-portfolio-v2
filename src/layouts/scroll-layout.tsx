@@ -1,107 +1,41 @@
 "use client";
-
-import { useEffect, useRef, useState } from "react";
+import { useEffect, type ReactNode } from "react";
 import Lenis from "lenis";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { usePathname } from "next/navigation";
 import { useScroll } from "@/hooks/smooth-scroll/use-scroll";
-import { scrollTo } from "@/utils/scroll-to";
-import { useShallow } from "zustand/react/shallow";
-
 export const scrollSpeed = { current: 1 };
-
-export function ScrollLayout({ children }: { children: React.ReactNode }) {
-  // Server-safe rendering
-  return (
-    <div className="scroll-layout">
-      {/* Static content that can be rendered on server */}
-      <div className="scroll-layout-content">{children}</div>
-
-      {/* Client-only functionality */}
-      <ScrollController />
-    </div>
-  );
-}
-
-function ScrollController() {
-  const isEnableScroll = useScroll((state) => state.isEnableScroll);
-  const [hash, setHash] = useState<string>("");
-  const [lenis, setLenis] = useScroll(
-    useShallow((state) => [state.lenis, state.setLenis]),
-  );
+export function ScrollLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const savedPathname = useRef("");
-
+  const setLenis = useScroll(state => state.setLenis);
+  const enabled = useScroll(state => state.isEnableScroll);
+  const lenis = useScroll(state => state.lenis);
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    window.scrollTo(0, 0);
-    const lenis = new Lenis({
-      smoothWheel: true,
-      // syncTouch: true,
-    });
-    (window as typeof window & { lenis: Lenis }).lenis = lenis;
-    setLenis(lenis);
-
-    let rafId = 0;
-    const raf = (time: number) => {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
+    gsap.registerPlugin(ScrollTrigger);
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let instance: Lenis | null = null;
+    const tick = (time: number) => instance?.raf(time * 1000);
+    const configure = () => {
+      gsap.ticker.remove(tick);
+      instance?.destroy();
+      instance = media.matches ? null : new Lenis({ smoothWheel: true, anchors: true });
+      setLenis(instance);
+      if (instance) { instance.on("scroll", ScrollTrigger.update); gsap.ticker.add(tick); }
     };
-    rafId = requestAnimationFrame(raf);
-
-    return () => {
-      // Cancel the loop before destroying Lenis — otherwise it keeps calling
-      // `raf` on a destroyed instance after unmount/HMR.
-      cancelAnimationFrame(rafId);
-      lenis.destroy();
-      setLenis(null);
-    };
+    configure();
+    media.addEventListener("change", configure);
+    return () => { media.removeEventListener("change", configure); gsap.ticker.remove(tick); instance?.destroy(); setLenis(null); };
   }, [setLenis]);
-
+  useEffect(() => { if (enabled) lenis?.start(); else lenis?.stop(); }, [enabled, lenis]);
   useEffect(() => {
-    if (isEnableScroll) {
-      lenis?.start();
-      enableNativeScroll(true);
-    } else {
-      lenis?.stop();
-      enableNativeScroll(false);
-    }
-  }, [isEnableScroll, lenis]);
-
-  useEffect(() => {
-    if (lenis && hash) {
-      setTimeout(() => {
-        scrollTo(hash, true);
-      }, 300);
-    }
-  }, [lenis, hash]);
-
-  useEffect(() => {
-    if (savedPathname.current !== pathname) {
-      savedPathname.current = pathname;
-      if (pathname.includes("#")) {
-        const hash = pathname.split("#").pop();
-        if (hash) {
-          setHash(hash);
-        }
-      }
-    }
-  }, [pathname, setHash]);
-
-  return null; // This component doesn't render anything visible
+    const frame = requestAnimationFrame(() => {
+      const target = window.location.hash ? document.getElementById(decodeURIComponent(window.location.hash.slice(1))) : null;
+      if (target) { if (lenis) lenis.scrollTo(target, { immediate: true }); else target.scrollIntoView(); }
+      // Next Link retains responsibility for regular route/back scroll restoration.
+      ScrollTrigger.refresh();
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [pathname, lenis]);
+  return <>{children}</>;
 }
-
-const enableNativeScroll = (value: boolean) => {
-  if (typeof document === "undefined") return;
-  if (!document) return;
-  const html = document.querySelector("html");
-  if (!html) return;
-  if (!value) {
-    html.style.position = "relative";
-    html.style.overflow = "hidden";
-    html.style.height = "100%";
-  } else {
-    html.style.removeProperty("position");
-    html.style.removeProperty("overflow");
-    html.style.removeProperty("height");
-  }
-};
