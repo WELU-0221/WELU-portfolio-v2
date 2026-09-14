@@ -31,7 +31,7 @@ const VarTextTag = forwardRef<HTMLElement, { tag?: Tags; children?: React.ReactN
   ({ tag = "span", children, className, style, ...props }, outerRef) => {
     const ref = useRef<HTMLElement | null>(null);
     useImperativeHandle(outerRef, () => ref.current as HTMLElement);
-    const Tag = tag as unknown as React.ElementType;
+    const Tag = tag as any;
     return (
       <Tag ref={ref} className={className} style={style} {...props}>
         {children}

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useReducedMotion } from "@react-spring/web";
 import { Spring } from "@/components/animation/springs/spring";
 import { ProjectVisual } from "./project-visual";
+import { SocketProjectPreview } from "./socket-project-preview";
 import { brand, type Project } from "@/data/portfolio";
 interface ProjectIndexProps { projects: Project[] }
 function IndexRow({ project }: { project: Project }) {
@@ -28,7 +29,9 @@ function IndexRow({ project }: { project: Project }) {
       <Spring tag="aside" aria-hidden="true" mode="always"
         from={{ opacity: 0, scale: 0.96, y: 8 }} to={{ opacity: active ? 1 : 0, scale: active ? 1 : 0.96, y: active && !reduceMotion ? 0 : 8 }}
         className="pointer-events-none absolute top-16 right-16 z-20 hidden w-64 origin-bottom-right shadow-xl lg:block">
-        <ProjectVisual project={project} compact />
+        {project.slug === "socket-automation"
+          ? <SocketProjectPreview active={active} reduceMotion={Boolean(reduceMotion)} />
+          : <ProjectVisual project={project} compact />}
       </Spring>
     </Link>
   </li>;

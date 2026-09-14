@@ -11,18 +11,24 @@ export const projects: Project[] = [
     "title": "Socket 設計自動化系統",
     "english": "Socket Design Automation System",
     "category": "DESIGN AUTOMATION",
-    "description": "從需求、設計規則到 3D 模型，串起 Socket 設計自動化流程。",
+    "description": "串接案件資料、工程計算、3D 建模、驗證與結果回寫的完整工程流程。",
     "tech": [
       "C#",
+      "WinForms",
+      "Excel Automation",
       "SolidWorks API",
-      "Formula Mapping"
+      "Database Integration"
     ],
-    "overview": "以 Socket 設計自動化為主題，呈現需求、設計規則、公式對應與模型驗證之間的關係。",
+    "overview": "從案件載入、工程師確認、Excel 計算、SolidWorks 自動建模與驗證，到案件狀態與結果回寫的端到端工程自動化流程。",
     "role": [
-      "個人負責的模組與工作範圍待補充。"
+      "自動化 WinForms UI 設計",
+      "端到端工程流程設計",
+      "工程規則與確認節點定義",
+      "參數化模型與組合關係建置",
+      "以工程使用者操作情境為核心進行開發"
     ],
-    "challenge": "如何將需求轉換成明確的設計規則，並讓公式、參數與模型之間保持一致，是本案例的工程討論主軸。實際遇到的問題與限制待補充。",
-    "approach": "依指定流程呈現 Requirement、Design Rules、Formula Mapping、C#、SolidWorks API、3D Model 與 Validation；各步驟的實作細節與分工待補充。",
+    "challenge": "讓案件資料、人工確認值、Excel 計算結果與 SolidWorks 模型參數保持一致，同時保留工程師的最終判斷權。",
+    "approach": "以 WinForms UI 串接案件載入、人工確認、Excel 計算、SolidWorks 自動建模、驗證、封裝與資料庫狀態回寫。",
     "workflows": [
       {
         "name": "Design automation",
@@ -38,7 +44,7 @@ export const projects: Project[] = [
       }
     ],
     "system": [],
-    "learning": "成果、驗證方式與實作心得待補充。此頁不列出未經確認的效率提升或量化數據。"
+    "learning": "將資料、規則、模型與驗證放進同一個操作脈絡，並以人工確認節點平衡自動化與工程判斷。本頁不列出未經確認的效率提升或量化數據。"
   },
   {
     "slug": "design-platform",

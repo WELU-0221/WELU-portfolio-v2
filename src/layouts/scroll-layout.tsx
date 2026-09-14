@@ -16,16 +16,24 @@ export function ScrollLayout({ children }: { children: ReactNode }) {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     let instance: Lenis | null = null;
     const tick = (time: number) => instance?.raf(time * 1000);
-    const configure = () => {
+    const onScroll = () => ScrollTrigger.update();
+    const disposeInstance = () => {
+      if (!instance) return;
       gsap.ticker.remove(tick);
-      instance?.destroy();
+      instance.off("scroll", onScroll);
+      instance.stop();
+      instance.destroy();
+      instance = null;
+    };
+    const configure = () => {
+      disposeInstance();
       instance = media.matches ? null : new Lenis({ smoothWheel: true, anchors: true });
       setLenis(instance);
-      if (instance) { instance.on("scroll", ScrollTrigger.update); gsap.ticker.add(tick); }
+      if (instance) { instance.on("scroll", onScroll); gsap.ticker.add(tick); }
     };
     configure();
     media.addEventListener("change", configure);
-    return () => { media.removeEventListener("change", configure); gsap.ticker.remove(tick); instance?.destroy(); setLenis(null); };
+    return () => { media.removeEventListener("change", configure); disposeInstance(); setLenis(null); };
   }, [setLenis]);
   useEffect(() => { if (enabled) lenis?.start(); else lenis?.stop(); }, [enabled, lenis]);
   useEffect(() => {

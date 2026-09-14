@@ -1,0 +1,149 @@
+# AI Dancing Robot model inventory
+
+Source: `public/models/AI自動機器人/組合件1.glb` (unchanged)
+
+71 nodes; 66 meshes. Original colors and material parameters preserved.
+The embedded normal map is DDS mislabeled as PNG; robot loader decodes it as RGBA.
+
+## Nodes
+
+- 0: current
+- 1: 組合件1
+- 2: 手臂1-1-2
+- 3: 馬達-25
+- 4: 馬達-1 — mesh 0
+- 5: 腰部1-1-1 — mesh 1
+- 6: 腳1-1 — mesh 2
+- 7: 馬達-2 — mesh 3
+- 8: 腳2-4-1 — mesh 4
+- 9: 手臂1-1-1 — mesh 5
+- 10: 馬達-3 — mesh 6
+- 11: 腳1-2 — mesh 7
+- 12: 腳2-5-1 — mesh 8
+- 13: 腳2-5-2 — mesh 9
+- 14: 馬達-4 — mesh 10
+- 15: 身體-1 — mesh 11
+- 16: 腳2-9-1 — mesh 12
+- 17: 腳2-9-2 — mesh 13
+- 18: 腳底板1-1-1 — mesh 14
+- 19: 馬達-16 — mesh 15
+- 20: 手臂1-2-1 — mesh 16
+- 21: 馬達-18 — mesh 17
+- 22: 腳2-111-2 — mesh 18
+- 23: 馬達-19 — mesh 19
+- 24: 手臂-1 — mesh 20
+- 25: 腳2-2-6 — mesh 21
+- 26: 腳2-3-7 — mesh 22
+- 27: 腳2-6-17 — mesh 23
+- 28: 腳2-2334-1 — mesh 24
+- 29: hex nut style 1 gradeab_iso-2 — mesh 25
+- 30: 腳2-3-8 — mesh 26
+- 31: 腳2-2-12 — mesh 27
+- 32: 手臂1111111-1 — mesh 28
+- 33: 腳2-233-1 — mesh 29
+- 34: 腳2-6-16 — mesh 30
+- 35: 馬達-23 — mesh 31
+- 36: w.6-1 — mesh 32
+- 37: countersunk flat head cross recess screw_iso-1 — mesh 33
+- 38: 腳2-233-2 — mesh 34
+- 39: 手手-1 — mesh 35
+- 40: 腰部-7 — mesh 36
+- 41: 腳2-9-8 — mesh 37
+- 42: 腳2-7-4 — mesh 38
+- 43: 腳2-7-5 — mesh 39
+- 44: 腳2-9-9 — mesh 40
+- 45: 腳1-6 — mesh 41
+- 46: 腳1-7 — mesh 42
+- 47: 腰部-6 — mesh 43
+- 48: 腳2-2334-2 — mesh 44
+- 49: 腳2-5-5 — mesh 45
+- 50: 腳2-6-19 — mesh 46
+- 51: 馬達-26 — mesh 47
+- 52: 腳2-6-18 — mesh 48
+- 53: 腳2-2-13 — mesh 49
+- 54: 馬達-27 — mesh 50
+- 55: 腳2-3-9 — mesh 51
+- 56: 腳2-2-14 — mesh 52
+- 57: 腳2-3-10 — mesh 53
+- 58: 腳2-5-4 — mesh 54
+- 59: 馬達-28 — mesh 55
+- 60: 手手-3
+- 61: 馬達-33 — mesh 56
+- 62: 腳底板1-1-3 — mesh 57
+- 63: 手臂-3 — mesh 58
+- 64: 腳2-4-2 — mesh 59
+- 65: 腳2-111-4 — mesh 60
+- 66: 馬達-30 — mesh 61
+- 67: 手臂1-2-4 — mesh 62
+- 68: 馬達-31 — mesh 63
+- 69: 馬達-29 — mesh 64
+- 70: 手手-4 — mesh 65
+
+## Meshes
+
+- 0: (unnamed)
+- 1: (unnamed)
+- 2: (unnamed)
+- 3: (unnamed)
+- 4: (unnamed)
+- 5: (unnamed)
+- 6: (unnamed)
+- 7: (unnamed)
+- 8: (unnamed)
+- 9: (unnamed)
+- 10: (unnamed)
+- 11: (unnamed)
+- 12: (unnamed)
+- 13: (unnamed)
+- 14: (unnamed)
+- 15: (unnamed)
+- 16: (unnamed)
+- 17: (unnamed)
+- 18: (unnamed)
+- 19: (unnamed)
+- 20: (unnamed)
+- 21: (unnamed)
+- 22: (unnamed)
+- 23: (unnamed)
+- 24: (unnamed)
+- 25: (unnamed)
+- 26: (unnamed)
+- 27: (unnamed)
+- 28: (unnamed)
+- 29: (unnamed)
+- 30: (unnamed)
+- 31: (unnamed)
+- 32: (unnamed)
+- 33: (unnamed)
+- 34: (unnamed)
+- 35: (unnamed)
+- 36: (unnamed)
+- 37: (unnamed)
+- 38: (unnamed)
+- 39: (unnamed)
+- 40: (unnamed)
+- 41: (unnamed)
+- 42: (unnamed)
+- 43: (unnamed)
+- 44: (unnamed)
+- 45: (unnamed)
+- 46: (unnamed)
+- 47: (unnamed)
+- 48: (unnamed)
+- 49: (unnamed)
+- 50: (unnamed)
+- 51: (unnamed)
+- 52: (unnamed)
+- 53: (unnamed)
+- 54: (unnamed)
+- 55: (unnamed)
+- 56: (unnamed)
+- 57: (unnamed)
+- 58: (unnamed)
+- 59: (unnamed)
+- 60: (unnamed)
+- 61: (unnamed)
+- 62: (unnamed)
+- 63: (unnamed)
+- 64: (unnamed)
+- 65: (unnamed)

@@ -10,10 +10,11 @@ export const metadata: Metadata = {
   alternates: { canonical: siteConfig.url + "/" },
   openGraph: { title: "WELU | Engineering Portfolio", description: siteConfig.description, url: siteConfig.url + "/", siteName: "WELU", locale: "zh_TW", type: "website" },
   robots: { index: true, follow: true },
+  other: { google: "notranslate" },
 };
 export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: siteConfig.themeColor };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="zh-Hant"><body>
+  return <html lang="zh-Hant" translate="no" className="notranslate"><body>
     <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-background focus:p-4">跳至主要內容</a>
     <ReducedMotion /><ScrollLayout><SiteHeader />{children}<SiteFooter /></ScrollLayout>
   </body></html>;

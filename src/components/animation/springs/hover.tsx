@@ -28,7 +28,6 @@ import React from "react";
 import { animated, useSpring } from "@react-spring/web";
 import {
   CSSProperties,
-  ElementType,
   forwardRef,
   ReactNode,
   useEffect,
@@ -65,7 +64,7 @@ const AnimatedVarTextTag = forwardRef<HTMLElement, VarTextTagProps>(
   ({ tag = "span", children, className, style, ...props }, outerRef) => {
     const ref = useRef<HTMLElement | null>(null);
     useImperativeHandle(outerRef, () => ref.current as HTMLElement);
-    const Tag = animated[tag] as ElementType;
+    const Tag = animated[tag] as any;
 
     return (
       <Tag ref={ref} className={className} style={style} {...props}>
