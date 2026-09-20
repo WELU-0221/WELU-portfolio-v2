@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { brand, projects } from "@/data/portfolio";
+import { otherProjects } from "@/data/other-projects";
+import { OtherProjects } from "@/components/portfolio/other-projects";
 import { ProjectIndex } from "@/components/portfolio/project-index";
 export const HomeView = () => <main id="main">
   <section aria-labelledby="brand-title" className="mx-auto max-w-content px-gutter pt-12 pb-16 md:pt-16 md:pb-24">
@@ -13,10 +15,13 @@ export const HomeView = () => <main id="main">
     </div>
   </section>
   <section id="projects" aria-labelledby="projects-title" className="mx-auto max-w-content px-gutter pb-section">
-    <div className="flex items-end justify-between gap-5 border-b border-foreground pb-6"><h2 id="projects-title" className="text-heading leading-display tracking-tight">{brand.labels.projects}</h2><span className="font-mono text-xs text-muted">INDEX / 05</span></div>
-    <ProjectIndex projects={projects} />
+    <div className="flex items-end justify-between gap-5 border-b border-foreground pb-6"><h2 id="projects-title" className="text-heading leading-display tracking-tight">{brand.labels.projects}</h2><span className="font-mono text-xs text-muted">INDEX / 04</span></div>
+    <ProjectIndex projects={projects.filter(project => project.slug !== "device-automation")} />
   </section>
-  <section id="about" aria-labelledby="about-title" className="border-y border-line bg-surface">
+  <section id="other-projects" aria-labelledby="other-projects-title" className="mx-auto max-w-content px-gutter pb-section">
+    <div className="border-b border-foreground pb-6 md:flex md:items-end md:justify-between md:gap-5"><div><p className="font-mono text-xs tracking-widest text-accent">OTHER WORKS</p><h2 id="other-projects-title" className="mt-3 text-heading leading-display tracking-tight">其他專案</h2><p className="mt-4 max-w-xl text-sm leading-loose text-muted">延伸工程工具、查詢系統、專案管理與早期實作。</p></div><p className="mt-5 max-w-xs text-sm leading-loose text-muted md:mt-0 md:text-right">Engineering tools, supporting systems, project management, and early works.</p></div>
+    <OtherProjects projects={otherProjects} />
+  </section>  <section id="about" aria-labelledby="about-title" className="border-y border-line bg-surface">
     <div className="mx-auto grid max-w-content gap-10 px-gutter py-section md:grid-cols-3">
       <h2 id="about-title" className="text-sm">01 — About</h2>
       <div className="md:col-span-2"><p className="text-heading leading-relaxed tracking-tight">設計不只是一個模型，<br />也是一套思考流程。</p><p className="mt-8 max-w-2xl text-base leading-loose text-muted">{brand.about}</p>

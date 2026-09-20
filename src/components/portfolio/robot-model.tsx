@@ -2,7 +2,7 @@
 import { Component, useEffect, useMemo, useRef, type ReactNode, type MutableRefObject } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
-import { Box3, DataTexture, LinearFilter, RepeatWrapping, RGBAFormat, MathUtils, Vector3, type Group } from "three";
+import { Box3, DataTexture, LinearFilter, RepeatWrapping, RGBAFormat, MathUtils, Mesh, MeshStandardMaterial, Vector3, type Group, type Material } from "three";
 import type { GLTFLoaderPlugin, GLTFParser } from "three-stdlib";
 import type { RobotPose } from "@/data/robot-story";
 import styles from "./robot-story.module.css";
@@ -52,7 +52,7 @@ export function RobotModel({ motion, renderFrameRef }: { motion: MutableRefObjec
   const asset = useMemo(() => {
     const model = scene.clone(true);
     // CAD exports can carry lights. Our own soft rig is independent of export settings.
-    model.traverse(object => { if (object.type.endsWith("Light")) object.visible = false; });
+    model.traverse(object => { if (object.type.endsWith("Light")) object.visible = false; if (object instanceof Mesh) { const tune = (material: Material) => { const adjusted = material.clone(); if (adjusted instanceof MeshStandardMaterial) { const hsl = { h: 0, s: 0, l: 0 }; adjusted.color.getHSL(hsl); if (hsl.s < .16) adjusted.color.multiplyScalar(.78); adjusted.roughness = Math.max(adjusted.roughness, .52); adjusted.metalness = Math.min(adjusted.metalness, .18); } return adjusted; }; object.material = Array.isArray(object.material) ? object.material.map(tune) : tune(object.material); } });
     const bounds = new Box3().setFromObject(model);
     const center = bounds.getCenter(new Vector3());
     const dimensions = bounds.getSize(new Vector3());
@@ -87,7 +87,7 @@ export function RobotModel({ motion, renderFrameRef }: { motion: MutableRefObjec
       .addScaledVector(axes.right, (mobile ? pose.x * .025 : pose.x) * width)
       .addScaledVector(axes.up, (mobile ? -.34 + Math.max(0, gl.domElement.getBoundingClientRect().top) / Math.max(size.height, 1) + pose.y * .1 : pose.y) * height);
     robot.current.scale.setScalar(fit * (mobile ? Math.min(pose.scale, 1.04) : pose.scale));
-    robot.current.rotation.y = -Math.PI / 2 + (mobile ? pose.yaw * .35 : pose.yaw);
+    robot.current.rotation.x = mobile ? pose.rx * .35 : pose.rx; robot.current.rotation.y = -Math.PI / 2 + (mobile ? pose.yaw * .35 : pose.yaw); robot.current.rotation.z = mobile ? pose.rz * .25 : pose.rz;
   });
   return <group ref={robot}><group scale={2 / asset.extent}><group position={asset.center.clone().negate()}><primitive object={asset.model} dispose={null} /></group></group></group>;
 }

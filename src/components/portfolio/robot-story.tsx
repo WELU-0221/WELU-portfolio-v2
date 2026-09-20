@@ -58,7 +58,7 @@ export function RobotStory() {
     <div className={styles.viewport} aria-label="AI Dancing Robot 3D 展示">
       <animated.div className={styles.canvas} style={entrance}>
         <RobotBoundary><Canvas frameloop="demand" dpr={[1, 1.5]} camera={{ position: [3.2, 1.8, 7.5], fov: 35, near: .01, far: 100 }} gl={{ alpha: true, antialias: true }} onCreated={state => { invalidate.current = state.invalidate; state.gl.setClearAlpha(0); }} fallback={<p className={styles.status}>此瀏覽器無法顯示 WebGL 模型，請繼續閱讀專案。</p>}>
-          <ambientLight intensity={1.2} /><hemisphereLight intensity={1.3} /><directionalLight position={[5, 8, 5]} intensity={1.7} /><directionalLight position={[-5, 3, -3]} intensity={.8} />
+          <ambientLight intensity={1.45} /><hemisphereLight groundColor="#c9d0d4" color="#fffaf1" intensity={1.55} /><directionalLight position={[5, 8, 5]} intensity={2.25} /><directionalLight position={[-4, 5, -2]} intensity={1.05} /><pointLight position={[-3, 4, 4]} intensity={0.7} color="#8e9bd6" distance={12} />
           <Suspense fallback={<Html center><span className="text-sm text-muted">Loading Robot…</span></Html>}><RobotModel motion={motion} renderFrameRef={invalidate} /></Suspense>
         </Canvas></RobotBoundary>
       </animated.div>
@@ -67,9 +67,9 @@ export function RobotStory() {
       <header data-robot-page className={styles.page}>
         <div data-robot-copy className={styles.copy}>
           <Link href="/#projects" className="mb-8 inline-block text-sm text-muted">← Back to Projects</Link>
-          <p className={styles.label}>W / 03 · UNIVERSITY CAPSTONE PROJECT</p>
+          <p className={styles.label}>W / 03 · ROBOTICS / MECHANICAL DESIGN / AI EXPLORATION</p>
           <h1 className={styles.heroTitle}>AI 跳舞機器人</h1><p className={styles.text}>AI Dancing Robot</p>
-          <p className={styles.label}>CROSS-DISCIPLINARY ENGINEERING</p>
+          <p className={styles.label}>ROBOTICS / MECHANICAL DESIGN / AI EXPLORATION</p>
           <div className={styles.tags}>{robotTags.map(tag => <span key={tag}>{tag}</span>)}</div>
           <Link href="#robot-overview" className={styles.link}>Scroll to explore ↓</Link>
         </div>
@@ -79,11 +79,11 @@ export function RobotStory() {
         <p className={styles.text}>這是一項跨領域團隊專題：整合機械結構、硬體配置、音樂分析與 AI 方法，探索讓機器人依音樂節奏產生對應動作。</p>
       </div></section>
       <section id="robot-responsibilities" data-robot-page className={styles.page} aria-labelledby="robot-role-title"><div data-robot-copy className={styles.copy}>
-        <p className={styles.label}>MY RESPONSIBILITIES / 個人負責</p><h2 id="robot-role-title" className={styles.title}>我參與的部分。</h2>
+        <p className={styles.label}>03 / MY CONTRIBUTION</p><h2 id="robot-role-title" className={styles.title}>我參與的部分。</h2><p className={styles.text}>以下內容是我的個人貢獻；Project / Team System 會在後續段落獨立標示。</p>
         <ul className={styles.list}>{robotResponsibilities.map(item => <li key={item}>{item}</li>)}</ul>
       </div></section>
       {robotStages.slice(1).map(stage => <section key={stage.id} id={`robot-${stage.id}`} data-robot-page className={styles.page} aria-labelledby={`robot-${stage.id}-title`}>
-        {stage.id === "workflows" ? <div data-robot-copy className={styles.dual}>
+        {stage.id === "sensor" ? <div data-robot-copy className={styles.copy} data-side={stage.side}><p className={styles.label}>{stage.label}</p><h2 id={`robot-${stage.id}-title`} className={styles.title}>{stage.title}</h2><p className={styles.text}>{stage.text}</p><ul className={styles.list}>{stage.items?.map(item => <li key={item}>{item}</li>)}</ul><div className={styles.callout} aria-hidden="true" /></div> : stage.id === "workflows" ? <div data-robot-copy className={styles.dual}>
           <header><p className={styles.label}>{stage.label}</p><h2 id={`robot-${stage.id}-title`} className={styles.title}>{stage.title}</h2></header>
           <Flow title="MECHANICAL" steps={mechanicalFlow} /><Flow title="AI / MUSIC" steps={musicFlow} /><p className={styles.merge}>ROBOT SYSTEM</p>
         </div> : <div data-robot-copy className={styles.copy} data-side={stage.side} data-narrow={stage.id === "rhythm" || stage.id === "contribution"}>
