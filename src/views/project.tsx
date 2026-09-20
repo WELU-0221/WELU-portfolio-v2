@@ -6,6 +6,7 @@ import { CaseMotion } from "@/components/portfolio/case-motion";
 import { ProjectVisual } from "@/components/portfolio/project-visual";
 import { RobotProjectDetail } from "@/components/portfolio/robot-project-detail";
 import { SocketProjectDetail } from "@/components/portfolio/socket-project-detail";
+import { ProbeProjectDetail } from "@/components/portfolio/probe-project-detail";
 import { CaseSection, WorkflowSection } from "@/components/portfolio/case-sections";
 import { siteConfig } from "@/lib/site";
 export const projectParams = () => projects.map(project => ({ slug: project.slug }));
@@ -24,7 +25,14 @@ export async function ProjectView({ params }: { params: Promise<{ slug: string }
   const isSocketProject = project.slug === "socket-automation";
   const previous = projects[(index + projects.length - 1) % projects.length];
   const next = projects[(index + 1) % projects.length];
-  if (project.slug === "ai-dancing-robot") return <RobotProjectDetail previous={previous} next={next} />;
+  if (project.slug === "ai-dancing-robot") {
+    const featuredProjects = projects.filter(item => item.slug !== "device-automation");
+    const featuredIndex = featuredProjects.findIndex(item => item.slug === project.slug);
+    const featuredPrevious = featuredProjects[(featuredIndex + featuredProjects.length - 1) % featuredProjects.length];
+    const featuredNext = featuredProjects[(featuredIndex + 1) % featuredProjects.length];
+    return <RobotProjectDetail previous={featuredPrevious} next={featuredNext} />;
+  }
+  if (project.slug === "probe-automation") return <ProbeProjectDetail project={project} />;
   if (isSocketProject) return <SocketProjectDetail project={project} previous={previous} next={next} />;
   return <main id="main"><CaseMotion>
     <header className="mx-auto max-w-content px-gutter pt-10 pb-16 md:pt-16 md:pb-20">

@@ -191,6 +191,37 @@ export const projects: Project[] = [
     ],
     "system": [],
     "learning": "建置成果、適用範圍與模型維護心得待補充。"
+  },
+  {
+    "slug": "probe-automation",
+    "number": "06",
+    "title": "探針自動化系統",
+    "english": "Probe Automation System",
+    "category": "ENGINEERING AUTOMATION",
+    "description": "整理探針相關輸入、工程邏輯、自動化流程，以及輸出與驗證方式的工程自動化專案。",
+    "tech": [
+      "[待補：Programming language]",
+      "[待補：UI / application framework]",
+      "[待補：Engineering software / API]"
+    ],
+    "overview": "[待補：Project background and automation objective]",
+    "role": [
+      "[待補：My responsibilities]"
+    ],
+    "challenge": "[待補：Engineering problem and constraints]",
+    "approach": "[待補：Calculation logic and automation approach]",
+    "workflows": [
+      {
+        "name": "Workflow · 待補實際流程",
+        "steps": [
+          "[待補：Probe input data]",
+          "[待補：Calculation logic]",
+          "[待補：Output format]"
+        ]
+      }
+    ],
+    "system": [],
+    "learning": "[待補：Verified result and engineering learning]"
   }
 ];
 export const brand = {

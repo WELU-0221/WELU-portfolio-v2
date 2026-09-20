@@ -51,13 +51,15 @@ export function RobotModel({ motion, renderFrameRef }: { motion: MutableRefObjec
   useEffect(() => { renderFrameRef.current = invalidate; invalidate(); return () => { if (renderFrameRef.current === invalidate) renderFrameRef.current = null; }; }, [invalidate, renderFrameRef]);
   const asset = useMemo(() => {
     const model = scene.clone(true);
+    const materialCopies = new Map<Material, Material>();
     // CAD exports can carry lights. Our own soft rig is independent of export settings.
-    model.traverse(object => { if (object.type.endsWith("Light")) object.visible = false; if (object instanceof Mesh) { const tune = (material: Material) => { const adjusted = material.clone(); if (adjusted instanceof MeshStandardMaterial) { const hsl = { h: 0, s: 0, l: 0 }; adjusted.color.getHSL(hsl); if (hsl.s < .16) adjusted.color.multiplyScalar(.78); adjusted.roughness = Math.max(adjusted.roughness, .52); adjusted.metalness = Math.min(adjusted.metalness, .18); } return adjusted; }; object.material = Array.isArray(object.material) ? object.material.map(tune) : tune(object.material); } });
+    model.traverse(object => { if (object.type.endsWith("Light")) object.visible = false; if (object instanceof Mesh) { const tune = (material: Material) => { const existing = materialCopies.get(material); if (existing) return existing; const adjusted = material.clone(); if (adjusted instanceof MeshStandardMaterial) { const hsl = { h: 0, s: 0, l: 0 }; adjusted.color.getHSL(hsl); if (hsl.s < .16) adjusted.color.multiplyScalar(.78); adjusted.roughness = Math.max(adjusted.roughness, .52); adjusted.metalness = Math.min(adjusted.metalness, .18); } materialCopies.set(material, adjusted); return adjusted; }; object.material = Array.isArray(object.material) ? object.material.map(tune) : tune(object.material); } });
     const bounds = new Box3().setFromObject(model);
     const center = bounds.getCenter(new Vector3());
     const dimensions = bounds.getSize(new Vector3());
-    return { model, center, dimensions, extent: Math.max(dimensions.x, dimensions.y, dimensions.z, .001) };
+    return { model, center, dimensions, materials: [...materialCopies.values()], extent: Math.max(dimensions.x, dimensions.y, dimensions.z, .001) };
   }, [scene]);
+  useEffect(() => () => { asset.materials.forEach(material => material.dispose()); }, [asset]);
   const axes = useMemo(() => ({ target: new Vector3(), forward: new Vector3(), right: new Vector3(), up: new Vector3() }), []);
   useEffect(() => {
     const objects: Array<{ name: string; type: string }> = [];
@@ -91,3 +93,5 @@ export function RobotModel({ motion, renderFrameRef }: { motion: MutableRefObjec
   });
   return <group ref={robot}><group scale={2 / asset.extent}><group position={asset.center.clone().negate()}><primitive object={asset.model} dispose={null} /></group></group></group>;
 }
+
+useGLTF.preload(modelUrl, `${base}/models/draco/`, true, configureRobotLoader);

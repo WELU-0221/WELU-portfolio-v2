@@ -15,7 +15,7 @@ export const HomeView = () => <main id="main">
     </div>
   </section>
   <section id="projects" aria-labelledby="projects-title" className="mx-auto max-w-content px-gutter pb-section">
-    <div className="flex items-end justify-between gap-5 border-b border-foreground pb-6"><h2 id="projects-title" className="text-heading leading-display tracking-tight">{brand.labels.projects}</h2><span className="font-mono text-xs text-muted">INDEX / 04</span></div>
+    <div className="flex items-end justify-between gap-5 border-b border-foreground pb-6"><h2 id="projects-title" className="text-heading leading-display tracking-tight">{brand.labels.projects}</h2><span className="font-mono text-xs text-muted">INDEX / 05</span></div>
     <ProjectIndex projects={projects.filter(project => project.slug !== "device-automation")} />
   </section>
   <section id="other-projects" aria-labelledby="other-projects-title" className="mx-auto max-w-content px-gutter pb-section">

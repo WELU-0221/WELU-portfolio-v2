@@ -19,7 +19,7 @@
     "react-dom": "19.2.8",
     "resize-observer-polyfill": "^1.5.1",
     "spring-text-engine": "^0.1.5",
-    "three": "^0.186.0",
+    "three": "0.182.0",
     "zod": "^4.4.3",
     "zustand": "^5.0.15"
   },
