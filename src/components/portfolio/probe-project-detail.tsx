@@ -1,50 +1,59 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import type { Project } from "@/data/portfolio";
+import { ProbeFlow } from "./probe-flow";
 
-function DetailSection({ number, title, english, children }: { number: string; title: string; english: string; children: ReactNode }) {
+type Step = { title: string; note?: string };
+
+const overviewSteps: Step[] = [
+  { title: "Engineering Input", note: "整理工程需求與輸入資料。" }, { title: "Design Rule", note: "將可標準化的工程判斷轉為規則。" }, { title: "Parameter Processing", note: "處理模型更新所需的參數。" }, { title: "Template Preparation", note: "確認並準備可用設計模板。" }, { title: "Parameter Search", note: "在公開的約束概念下評估候選參數。" }, { title: "SolidWorks Automation", note: "銜接 CAD 自動化操作。" }, { title: "Model / Part Update", note: "更新零件、組態與組合件。" }, { title: "Drawing Automation", note: "處理工程圖參考與輸出。" }, { title: "Validation", note: "確認流程結果與例外狀態。" }, { title: "Log / Result", note: "保留可追蹤的流程紀錄。" },
+];
+const preparationSteps: Step[] = [
+  { title: "Connect SolidWorks", note: "確認或啟動 SolidWorks 環境。" }, { title: "Prepare Input Data", note: "整理 UI Input 與設計規則相關資料。" }, { title: "Load Latest Template", note: "取得最新可用設計模板。" }, { title: "Prepare Local Workspace", note: "建立本地工作環境與必要檔案。" }, { title: "Close Active Models", note: "避免已開啟模型影響自動化。" }, { title: "Start Probe Automation", note: "啟動主要 Probe Automation Workflow。" },
+];
+const coreSteps: Step[] = ["Create Local Workspace", "Scan / Classify Templates", "Prepare Reference Data", "Apply Design Rules", "Update Engineering Parameters", "Open CAD Assembly", "Read Required Geometry", "Parameter Search / Calculation", "Update Part Parameters", "Rebuild Assembly", "Save Result", "Log / Validation"].map(title => ({ title }));
+const ruleSteps: Step[] = [
+  { title: "Engineering Requirement", note: "理解設計需求與使用情境。" }, { title: "Part Type / Design Condition", note: "辨識零件類型與設計條件。" }, { title: "Rule Selection", note: "選擇適用的更新策略。" }, { title: "Parameter Mapping", note: "將條件對應到模型參數。" }, { title: "Engineering Constraint Check", note: "以概念性約束檢查結果。" }, { title: "CAD Update", note: "將判斷轉為模型更新。" },
+];
+const searchSteps: Step[] = ["Geometry Constraints", "Candidate Parameter Generation", "Force Evaluation", "Lifetime Check", "Stress Check", "Manufacturability Check", "Candidate Ranking / Selection", "Recommended Parameter Set"].map(title => ({ title }));
+const cadSteps: Step[] = ["Selected Parameters", "SolidWorks API", "Part Dimension Update", "Feature / Configuration Update", "Assembly Rebuild", "Save"].map(title => ({ title }));
+const rebirthSteps: Step[] = [
+  { title: "Detect Part Type", note: "辨識不同零件處理路徑。" }, { title: "Non-SP / SP Spring", note: "依零件類型分支處理。" }, { title: "Read Part Input / Spring Parameters", note: "讀取對應的公開概念資料。" }, { title: "Update Dimension / Apply Rules", note: "套用相應更新邏輯。" }, { title: "Rebuild and Validate", note: "重建模型並進行驗證。" }, { title: "Log and Restore UI State", note: "留下紀錄並恢復使用者介面狀態。" },
+];
+const drawingSteps: Step[] = ["Existing Part", "Read Configuration", "Create New Configuration / Variant", "Create Linked Part", "Save New Part", "Copy Appearance", "Copy Drawing", "Replace 3D Reference", "Update Drawing Properties", "Rebuild", "Clean Invalid Annotations", "Output Part + Drawing"].map(title => ({ title }));
+const validationSteps: Step[] = ["Connection Check", "Template Check", "Input Validation", "Parameter Search Result", "CAD Rebuild Check", "Drawing Reference Check", "Save Check", "Log Record", "UI State Restore"].map(title => ({ title }));
+const exceptions = ["SolidWorks connection failure", "Template unavailable", "Invalid input", "Parameter search no valid result", "CAD rebuild failure", "Drawing reference update failure"];
+const contribution = ["工程需求與自動化流程拆解", "C# / WinForms 操作流程整合", "SolidWorks API 自動化", "Part / Assembly / Configuration / Drawing 操作", "Design Rule 邏輯整合", "參數搜尋流程設計", "模板與工作目錄管理", "Validation / Error Handling / Logging", "工程 UI 與模型更新流程整合"];
+const techStack = ["C#", "WinForms", "SolidWorks API", "SolidWorks COM", "Engineering Design Rules", "Parameter Search Logic", "CAD Automation", "Drawing Automation", "File / Template Management", "Validation & Logging"];
+const valueCards = [["01", "Reduce Repetitive Work", "降低重複的參數修改與 CAD 操作"], ["02", "Improve Design Consistency", "讓設計規則、模型與工程圖更新更一致"], ["03", "Preserve Engineering Logic", "把可標準化的工程判斷轉換為系統流程"], ["04", "Improve Traceability", "透過 Validation 與 Log 保留流程結果與異常資訊"], ["05", "Support Human Review", "工程師仍保留設計確認與異常判斷權"]];
+const learningCards = [["01", "Engineering Logic → Software Logic", "學會把工程師的設計判斷拆成條件、流程與可執行的程式邏輯。"], ["02", "Automation Requires Validation", "真正可用的工程自動化不只要成功執行，還要能處理錯誤、驗證結果與留下紀錄。"], ["03", "CAD Automation Is System Integration", "SolidWorks API 只是其中一環，模板、參數、設計規則、檔案與工程圖必須一起整合。"]];
+
+function Section({ number, title, english, children }: { number: string; title: string; english: string; children: ReactNode }) {
   const id = `probe-${number}`;
-  return <section id={id} aria-labelledby={`${id}-title`} className="grid gap-8 border-t border-line py-14 md:grid-cols-12 md:gap-10 md:py-20">
-    <p className="font-mono text-xs tracking-widest text-accent md:col-span-2">{number}</p>
-    <header className="md:col-span-4"><h2 id={`${id}-title`} className="text-3xl leading-tight tracking-tight md:text-4xl">{title}</h2><p className="mt-3 text-sm text-muted">{english}</p></header>
-    <div className="md:col-span-6">{children}</div>
-  </section>;
+  return <section id={id} aria-labelledby={`${id}-title`} className="border-t border-line py-section"><div className="grid gap-7 lg:grid-cols-12 lg:gap-12"><p className="font-mono text-xs tracking-widest text-accent lg:col-span-2">{number} / 16</p><header className="lg:sticky lg:top-28 lg:col-span-4 lg:self-start"><h2 id={`${id}-title`} className="text-heading leading-display tracking-tight">{title}</h2><p className="mt-3 text-sm text-muted">{english}</p></header><div className="min-w-0 lg:col-span-6">{children}</div></div></section>;
 }
+function CopyList({ items }: { items: string[] }) { return <ul className="divide-y divide-line border-y border-line text-sm leading-relaxed text-muted">{items.map((item, index) => <li key={item} className="flex gap-5 py-4"><span className="font-mono text-accent">{String(index + 1).padStart(2, "0")}</span><span>{item}</span></li>)}</ul>; }
+function Cards({ items }: { items: string[][] }) { return <div className="grid gap-px border border-line bg-line sm:grid-cols-2">{items.map(([number, title, body]) => <article key={number} className="bg-background p-5 md:p-6"><span className="font-mono text-xs text-accent">{number}</span><h3 className="mt-6 text-lg leading-snug">{title}</h3><p className="mt-3 text-sm leading-relaxed text-muted">{body}</p></article>)}</div>; }
 
-function PlaceholderList({ items }: { items: string[] }) {
-  return <ul className="border-b border-line">{items.map((item, index) => <li key={item} className="grid grid-cols-[2rem_1fr] gap-4 border-t border-line py-4 text-sm text-muted"><span className="font-mono text-xs text-accent">{String(index + 1).padStart(2, "0")}</span><span>{item}</span></li>)}</ul>;
-}
-
-export function ProbeProjectDetail({ project }: { project: Project }) {
+export function ProbeProjectDetail({ previous, next }: { previous: Project; next: Project }) {
   return <main id="main">
-    <header className="mx-auto flex min-h-[70svh] max-w-content flex-col justify-center px-gutter py-14">
-      <Link href="/#projects" className="w-fit py-3 text-sm text-muted transition-colors hover:text-accent">← Back to Projects</Link>
-      <div className="mt-12 flex flex-wrap justify-between gap-4 border-b border-line pb-5 font-mono text-xs tracking-widest text-muted"><p>01 / PROJECT HERO</p><p>ENGINEERING AUTOMATION</p></div>
-      <h1 className="mt-8 max-w-5xl text-title leading-relaxed tracking-tight">{project.title}</h1>
-      <p className="mt-4 text-xl text-muted">{project.english}</p>
-      <div className="mt-12 grid gap-6 border-t border-line pt-6 md:grid-cols-2"><p className="max-w-xl leading-loose">{project.description}</p><p className="font-mono text-xs leading-loose tracking-wider text-muted md:text-right">INFORMATION ARCHITECTURE / CONTENT PENDING</p></div>
-    </header>
-
+    <header className="mx-auto grid min-h-[78svh] items-center gap-12 px-gutter py-section lg:max-w-content lg:grid-cols-12"><div className="lg:col-span-7"><Link href="/#projects" className="inline-block py-3 text-sm text-muted hover:text-accent">← Back to Projects</Link><p className="mt-12 font-mono text-xs tracking-widest text-accent">01 / 16 · MECHANICAL DESIGN AUTOMATION</p><h1 className="mt-7 text-title leading-display tracking-tight">探針自動化系統</h1><p className="mt-5 text-xl text-muted md:text-2xl">Probe Automation System</p><p className="mt-10 max-w-2xl text-lg leading-relaxed">將探針設計規則、參數搜尋、CAD 模型更新與工程圖處理，整合為可重複執行的工程自動化流程。</p><p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted">An engineering automation system integrating design rules, parameter search, CAD updates, drawing automation, and validation into a repeatable design workflow.</p><ul aria-label="Project categories" className="mt-10 flex flex-wrap gap-x-5 gap-y-2 border-t border-line pt-5 font-mono text-xs text-muted">{["Mechanical Design Automation", "SolidWorks API", "Design Rule", "Engineering Software"].map(item => <li key={item}>{item}</li>)}</ul></div><div aria-hidden="true" className="relative flex min-h-72 items-center justify-center overflow-hidden border border-line bg-surface p-8 lg:col-span-5 lg:min-h-96"><div className="absolute inset-6 border border-line" /><div className="absolute inset-x-10 top-1/2 border-t border-line" /><div className="absolute inset-y-10 left-1/2 border-l border-line" /><svg viewBox="0 0 380 220" fill="none" className="relative w-full max-w-sm text-foreground"><path d="M36 110H344M72 90H308M72 130H308" stroke="currentColor" strokeWidth="1.5" /><path d="M100 110c12-42 24-42 36 0s24 42 36 0 24-42 36 0 24 42 36 0 24-42 36 0" stroke="currentColor" strokeWidth="2" /><circle cx="36" cy="110" r="5" fill="currentColor" /><circle cx="344" cy="110" r="5" fill="currentColor" /><path d="M100 55v110M280 55v110" stroke="currentColor" strokeDasharray="3 6" opacity=".45" /></svg><p className="absolute bottom-9 left-9 font-mono text-xs text-muted">CONCEPTUAL LINE STUDY / NOT A CAD MODEL</p></div></header>
     <div className="mx-auto max-w-content px-gutter">
-      <DetailSection number="02" title="專案概述" english="Project Overview"><div className="space-y-5 leading-loose text-muted"><p>此頁將整理探針自動化系統的輸入、工程邏輯、自動化流程，以及輸出與驗證方式。</p><p>[待補：Project background and automation objective]</p><p>[待補：Public project scope]</p></div></DetailSection>
-
-      <DetailSection number="03" title="工程挑戰" english="Engineering Challenge"><PlaceholderList items={["[待補：Engineering problem]", "[待補：Design constraints]", "[待補：Current manual process or limitation]"]} /></DetailSection>
-
-      <DetailSection number="04" title="我的角色" english="My Role"><div><p className="mb-6 border-l-2 border-accent pl-5 text-sm leading-loose">此區只會列出個人實際負責內容；尚未確認的工作範圍不會先行宣稱。</p><PlaceholderList items={["[待補：My responsibilities]", "[待補：Design / development scope]", "[待補：Collaboration boundary]"]} /></div></DetailSection>
-
-      <DetailSection number="05" title="輸入與資料流" english="Input / Data Flow"><div><p className="mb-7 text-sm leading-loose text-muted">資料來源、格式與確認方式尚待整理。</p><div className="grid border-y border-line md:grid-cols-3">{["[待補：Probe input data]", "[待補：Data source / format]", "[待補：Input validation rules]"].map((item, index) => <div key={item} className="relative min-h-28 border-t border-line p-5 first:border-t-0 md:border-t-0 md:border-l md:first:border-l-0"><span className="font-mono text-xs text-accent">0{index + 1}</span><p className="mt-5 text-sm text-muted">{item}</p>{index < 2 && <span aria-hidden="true" className="absolute right-3 bottom-3 text-accent">→</span>}</div>)}</div></div></DetailSection>
-
-      <DetailSection number="06" title="工程邏輯" english="Engineering Logic"><PlaceholderList items={["[待補：Calculation logic]", "[待補：Engineering rules]", "[待補：Manual confirmation points]", "[待補：Exception handling logic]"]} /></DetailSection>
-
-      <DetailSection number="07" title="自動化流程" english="Automation Workflow"><div><p className="mb-7 text-sm leading-loose text-muted">流程節點會在實際操作方式確認後補充。</p><PlaceholderList items={["[待補：Automation trigger]", "[待補：Processing steps]", "[待補：System interaction]", "[待補：Completion condition]"]} /></div></DetailSection>
-
-      <DetailSection number="08" title="輸出與驗證" english="Output / Validation"><PlaceholderList items={["[待補：Output format]", "[待補：Validation method]", "[待補：Pass / fail criteria]", "[待補：Error log or traceability]"]} /></DetailSection>
-
-      <DetailSection number="09" title="技術棧" english="Tech Stack"><div className="flex flex-wrap gap-3">{["[待補：Programming language]", "[待補：UI / application framework]", "[待補：Data source]", "[待補：Engineering software / API]"].map(item => <span key={item} className="border border-line px-4 py-3 text-sm text-muted">{item}</span>)}</div></DetailSection>
-
-      <DetailSection number="10" title="成果與學習" english="Result / Learning"><div className="space-y-5 leading-loose text-muted"><p>[待補：Verified project result]</p><p>[待補：Engineering learning]</p><p className="border-l-2 border-line pl-5 text-sm">本頁目前不列出尚未確認的效率、成功率、精度或其他量化成果。</p></div></DetailSection>
-
-      <div className="border-t border-foreground py-12"><Link href="/#projects" className="inline-block border-b border-foreground py-3 text-sm transition-colors hover:text-accent">← Back to Projects</Link></div>
+      <Section number="02" title="工程問題" english="Engineering Challenge"><p className="max-w-xl text-xl leading-relaxed">挑戰不只是控制 SolidWorks，而是把工程判斷轉換成可執行、可重複的系統邏輯。</p><p className="mt-4 max-w-xl text-sm leading-relaxed text-muted">The challenge was not simply automating CAD operations, but converting engineering decisions into executable and repeatable logic.</p><CopyList items={["新探針設計需要人工調整多組參數", "CAD 模型與工程圖需要反覆修改", "模板與參數版本需要人工確認", "不同零件類型有不同處理方式", "重複操作增加設計時間", "人工操作可能造成參數與模型不同步"]} /></Section>
+      <Section number="03" title="系統架構" english="System Overview"><p className="mb-7 text-sm leading-relaxed text-muted">從工程輸入到結果紀錄，將規則、參數、CAD 與驗證串成一條流程。</p><ProbeFlow steps={overviewSteps} label="System Overview" variant="map" /></Section>
+      <Section number="04" title="自動化前置作業" english="Automation Preparation"><p className="mb-7 text-sm leading-relaxed text-muted">確保每次流程都從正確模板與參數開始，降低版本不一致與人工準備時間。</p><ProbeFlow steps={preparationSteps} label="Automation Preparation" variant="numbered" /></Section>
+      <Section number="05" title="探針自動化主流程" english="Probe Automation Core"><p className="mb-7 text-sm leading-relaxed text-muted">依序準備資料、套用規則、更新 CAD，最後重建、保存並留下驗證紀錄。</p><ProbeFlow steps={coreSteps} label="Probe Automation Core" variant="numbered" /></Section>
+      <Section number="06" title="設計規則引擎" english="Design Rule Engine"><p className="mb-7 max-w-xl text-lg leading-relaxed">工程師的判斷並不是完全拿掉，而是把可標準化的設計規則轉換成程式可執行邏輯。</p><ProbeFlow steps={ruleSteps} label="Design Rule Engine" variant="numbered" /><div className="mt-6 grid gap-px border border-line bg-line sm:grid-cols-2"><p className="bg-background p-5 text-sm">Non-SP Part<br /><span className="text-muted">使用對應的零件更新策略。</span></p><p className="bg-background p-5 text-sm">SP Spring Part<br /><span className="text-muted">使用彈簧參數與規則搜尋策略。</span></p></div></Section>
+      <Section number="07" title="彈簧參數搜尋" english="Spring Parameter Search"><p className="mb-7 max-w-xl text-lg leading-relaxed">以公開、安全的工程概念呈現候選參數的產生、評估與選擇，不公開公式或門檻值。</p><div className="grid gap-6 md:grid-cols-[.7fr_1.3fr]"><div className="border-l-2 border-accent pl-5 text-sm leading-relaxed text-muted"><p>Engineering Constraints</p><p className="mt-4">Available space<br />Outer diameter<br />Wire diameter<br />Coil count<br />Spring force<br />Lifetime<br />Stress<br />Pitch<br />Manufacturability</p></div><ProbeFlow steps={searchSteps} label="Spring Parameter Search" variant="numbered" /></div></Section>
+      <Section number="08" title="CAD 模型自動化" english="CAD Model Automation"><p className="mb-7 max-w-xl text-lg leading-relaxed">自動化不只完成參數計算，還需要確保計算結果正確反映到零件、組態與組合件模型。</p><ProbeFlow steps={cadSteps} label="CAD Model Automation" variant="numbered" /></Section>
+      <Section number="09" title="零件重生" english="Probe Rebirth"><p className="mb-7 text-sm leading-relaxed text-muted">不同零件類型使用不同自動更新邏輯，最後匯合至驗證、紀錄與 UI 狀態恢復。</p><ProbeFlow steps={rebirthSteps} label="Probe Rebirth" variant="map" /></Section>
+      <Section number="10" title="零件與工程圖生成" english="Part & Drawing Generation"><p className="mb-7 text-sm leading-relaxed text-muted">公開版只呈現處理關係，不顯示真實 Part 名稱、Drawing 命名規則或檔案路徑。</p><ProbeFlow steps={drawingSteps} label="Part and Drawing Generation" variant="numbered" /></Section>
+      <Section number="11" title="驗證與例外處理" english="Validation / Exception Handling"><ProbeFlow steps={validationSteps} label="Validation and Exception Handling" variant="numbered" /><div className="mt-8 border-l-2 border-accent pl-5"><h3 className="text-lg">Human Review remains part of the workflow.</h3><p className="mt-3 text-sm leading-relaxed text-muted">發生例外時，流程會安全停止、保留適當的有效值、記錄錯誤、恢復 UI，並交回工程師檢視。</p></div><div className="mt-7 flex flex-wrap gap-2">{exceptions.map(item => <span key={item} className="border border-line px-3 py-2 text-xs text-muted">{item}</span>)}</div></Section>
+      <Section number="12" title="我的負責內容" english="My Contribution"><p className="mb-7 max-w-xl text-lg leading-relaxed">將工程需求、使用者操作與 CAD 更新流程整合成可理解、可執行的自動化系統。</p><CopyList items={contribution} /></Section>
+      <Section number="13" title="技術架構" english="Tech Stack"><div className="flex flex-wrap gap-3">{techStack.map(item => <span key={item} className="border border-line px-4 py-3 text-sm text-muted">{item}</span>)}</div></Section>
+      <Section number="14" title="工程價值" english="Engineering Value"><Cards items={valueCards} /></Section>
+      <Section number="15" title="成果與工程學習" english="Result / Engineering Learning"><p className="mb-8 max-w-xl text-lg leading-relaxed">完成從前置資料準備、設計規則、參數搜尋、SolidWorks 模型更新、零件與工程圖生成，到 Validation / Logging 的完整工程自動化流程。</p><Cards items={learningCards} /></Section>
+      <nav aria-label="專案切換" className="grid border-t border-foreground py-10 md:grid-cols-2"><Link href={`/projects/${previous.slug}/`} className="py-5 md:pr-8"><span className="text-sm text-muted">← Previous Project</span><p className="mt-4 text-xl">{previous.title}</p><p className="mt-2 text-sm text-muted">{previous.english}</p></Link><Link href={`/projects/${next.slug}/`} className="border-t border-line py-5 md:border-t-0 md:border-l md:pl-8 md:text-right"><span className="text-sm text-muted">Next Project →</span><p className="mt-4 text-xl">{next.title}</p><p className="mt-2 text-sm text-muted">{next.english}</p></Link></nav><Link href="/#projects" className="mb-16 inline-block border-b border-foreground py-3 text-sm hover:text-accent">← Back to Projects</Link>
     </div>
   </main>;
 }

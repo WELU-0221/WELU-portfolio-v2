@@ -197,12 +197,12 @@ export const projects: Project[] = [
     "number": "06",
     "title": "探針自動化系統",
     "english": "Probe Automation System",
-    "category": "ENGINEERING AUTOMATION",
-    "description": "整理探針相關輸入、工程邏輯、自動化流程，以及輸出與驗證方式的工程自動化專案。",
+    "category": "MECHANICAL DESIGN AUTOMATION",
+    "description": "將探針設計規則、參數處理、CAD 模型更新與工程流程整合為自動化設計系統。",
     "tech": [
-      "[待補：Programming language]",
-      "[待補：UI / application framework]",
-      "[待補：Engineering software / API]"
+      "SolidWorks API",
+      "Design Rule",
+      "Engineering Software"
     ],
     "overview": "[待補：Project background and automation objective]",
     "role": [

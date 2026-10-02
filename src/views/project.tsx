@@ -2,23 +2,32 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { projects, brand } from "@/data/portfolio";
+import { otherProjects } from "@/data/other-projects";
+import { OtherProjectDetail } from "@/components/portfolio/other-project-detail";
 import { CaseMotion } from "@/components/portfolio/case-motion";
 import { ProjectVisual } from "@/components/portfolio/project-visual";
 import { RobotProjectDetail } from "@/components/portfolio/robot-project-detail";
 import { SocketProjectDetail } from "@/components/portfolio/socket-project-detail";
-import { ProbeProjectDetail } from "@/components/portfolio/probe-project-detail";
+import { ProbeStory } from "@/components/portfolio/probe-story";
 import { CaseSection, WorkflowSection } from "@/components/portfolio/case-sections";
 import { siteConfig } from "@/lib/site";
-export const projectParams = () => projects.map(project => ({ slug: project.slug }));
+export const projectParams = () => [...projects, ...otherProjects].map(project => ({ slug: project.slug }));
 export async function projectMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const project = projects.find(item => item.slug === slug);
+  const project = projects.find(item => item.slug === slug) ?? otherProjects.find(item => item.slug === slug);
   if (!project) return { title: "Project not found | WELU" };
   const url = siteConfig.url + "/projects/" + slug + "/";
   return { title: project.title + " | WELU", description: project.description, alternates: { canonical: url }, openGraph: { title: project.title + " | WELU", description: project.description, url, type: "article", locale: "zh_TW" } };
 }
 export async function ProjectView({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+  const otherIndex = otherProjects.findIndex(item => item.slug === slug);
+  if (otherIndex !== -1) {
+    const project = otherProjects[otherIndex];
+    const previous = otherProjects[(otherIndex + otherProjects.length - 1) % otherProjects.length];
+    const next = otherProjects[(otherIndex + 1) % otherProjects.length];
+    return <OtherProjectDetail project={project} previous={previous} next={next} />;
+  }
   const index = projects.findIndex(item => item.slug === slug);
   if (index === -1) notFound();
   const project = projects[index];
@@ -32,7 +41,7 @@ export async function ProjectView({ params }: { params: Promise<{ slug: string }
     const featuredNext = featuredProjects[(featuredIndex + 1) % featuredProjects.length];
     return <RobotProjectDetail previous={featuredPrevious} next={featuredNext} />;
   }
-  if (project.slug === "probe-automation") return <ProbeProjectDetail project={project} />;
+  if (project.slug === "probe-automation") return <ProbeStory previous={previous} next={next} />;
   if (isSocketProject) return <SocketProjectDetail project={project} previous={previous} next={next} />;
   return <main id="main"><CaseMotion>
     <header className="mx-auto max-w-content px-gutter pt-10 pb-16 md:pt-16 md:pb-20">

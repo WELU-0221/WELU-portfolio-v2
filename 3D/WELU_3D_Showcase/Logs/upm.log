@@ -1,0 +1,124 @@
+[2026-09-11T07:57:44.557Z][INFO] Command-line: 'C:\\Program Files\\Unity\\Hub\\Editor\\6000.6.0f1\\Editor\\Data\\Resources\\PackageManager\\Server\\UnityPackageManager.exe' server -s 24992 --ipc-path Unity-Upm-24992 -l 2 --log-file C:\\Users\\jimmy\\Desktop\\my-new-site\\3D\\WELU_3D_Showcase/Logs/upm.log
+[2026-09-11T07:57:44.606Z][INFO] IPC server started (IPC path=Unity-Upm-24992).
+[2026-09-11T07:57:44.606Z][INFO] Hint: To connect to this UPM instance, launch Unity with the command-line parameter -upmIpcPath Upm-24992.
+[2026-09-11T07:57:46.787Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-09-11T07:57:46.975Z][INFO] project:list-packages --> 200 (187 ms)
+[2026-09-11T07:57:47.188Z][INFO] config:project:get-registries <-- Request received
+params: {}
+[2026-09-11T07:57:47.194Z][INFO] config:project:get-registries --> 200 (6 ms)
+[2026-09-11T07:57:47.217Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-09-11T07:57:47.312Z][INFO] project:list-packages --> 200 (95 ms)
+[2026-09-11T07:58:24.847Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-09-11T07:58:24.888Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-09-11T07:58:25.035Z][INFO] project:list-packages --> 200 (188 ms)
+[2026-09-11T07:58:25.100Z][INFO] project:list-packages --> 200 (212 ms)
+[2026-09-11T07:58:25.155Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-09-11T07:58:25.324Z][INFO] config:project:get-registries <-- Request received
+params: {}
+[2026-09-11T07:58:25.337Z][INFO] config:project:get-registries --> 200 (13 ms)
+[2026-09-11T07:58:25.389Z][INFO] project:list-packages --> 200 (234 ms)
+[2026-09-11T07:58:27.877Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-09-11T07:58:27.988Z][INFO] project:list-packages --> 200 (111 ms)
+[2026-09-11T07:58:31.201Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-09-11T07:58:33.464Z][INFO] project:list-packages --> 200 (2263 ms)
+[2026-09-11T10:15:38.859Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-09-11T10:15:39.429Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-09-11T10:15:40.612Z][INFO] project:list-packages --> 200 (1757 ms)
+[2026-09-11T10:15:40.614Z][INFO] project:list-packages --> 200 (1185 ms)
+[2026-09-11T10:15:43.494Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-09-11T10:15:43.606Z][INFO] project:list-packages --> 200 (112 ms)
+[2026-09-11T10:15:44.259Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-09-11T10:15:44.387Z][INFO] project:list-packages --> 200 (128 ms)
+[2026-09-12T06:39:29.269Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-09-12T06:39:29.525Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:29.585Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:29.602Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:29.605Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:29.607Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:29.608Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:29.612Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:29.857Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:29.875Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:29.949Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:29.959Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-09-12T06:39:30.058Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.064Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.081Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.107Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.110Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.111Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.113Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.115Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.124Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.126Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.197Z][ERROR] Unexpected error fetching registry list config: Cannot connect to 'cdn.packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+{
+  stack: "Error: Cannot connect to 'cdn.packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.\n" +
+    '    at convertHttpRequestErrorToUpmError (/home/bokken/build/output/unity/upm/dist/temp/bundle/app.js:155:7607)\n' +
+    '    at runAxiosRequest (/home/bokken/build/output/unity/upm/dist/temp/bundle/app.js:155:10548)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n' +
+    '    at async Object.getJsonAndEtag (/home/bokken/build/output/unity/upm/dist/temp/bundle/app.js:156:107)\n' +
+    '    at async Object.fetchNonCompliantRegistries (/home/bokken/build/output/unity/upm/dist/temp/bundle/app.js:156:3824)\n' +
+    '    at async /home/bokken/build/output/unity/upm/dist/temp/bundle/app.js:156:4975'
+}
+[2026-09-12T06:39:30.258Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.260Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.262Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.266Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.268Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.270Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.273Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.274Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.278Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.288Z][INFO] project:list-packages --> 200 (1019 ms)
+[2026-09-12T06:39:30.292Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.297Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.305Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.309Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.314Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.317Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.349Z][ERROR] Unexpected error fetching registry list config: Cannot connect to 'cdn.packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+{
+  stack: "Error: Cannot connect to 'cdn.packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.\n" +
+    '    at convertHttpRequestErrorToUpmError (/home/bokken/build/output/unity/upm/dist/temp/bundle/app.js:155:7607)\n' +
+    '    at runAxiosRequest (/home/bokken/build/output/unity/upm/dist/temp/bundle/app.js:155:10548)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n' +
+    '    at async Object.getJsonAndEtag (/home/bokken/build/output/unity/upm/dist/temp/bundle/app.js:156:107)\n' +
+    '    at async Object.fetchNonCompliantRegistries (/home/bokken/build/output/unity/upm/dist/temp/bundle/app.js:156:3824)\n' +
+    '    at async /home/bokken/build/output/unity/upm/dist/temp/bundle/app.js:156:4975'
+}
+[2026-09-12T06:39:30.383Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.385Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.388Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.400Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.402Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.403Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.405Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.407Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.409Z][ERROR] Error: Cannot connect to 'packages.unity.com' (error code: ENOTFOUND). Check your internet connection and verify that your environment firewall policies allow connection to this host name. If your system is behind a proxy, verify your proxy environment variables (HTTP_PROXY and HTTPS_PROXY) are properly set.
+[2026-09-12T06:39:30.420Z][INFO] project:list-packages --> 200 (461 ms)
+[2026-09-12T06:39:33.419Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-09-12T06:39:33.746Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-09-12T06:39:34.990Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-09-12T06:39:35.391Z][INFO] project:list-packages --> 200 (1645 ms)
+[2026-09-12T06:39:35.393Z][INFO] project:list-packages --> 200 (404 ms)
+[2026-09-12T06:39:35.394Z][INFO] project:list-packages --> 200 (1975 ms)
+[2026-09-12T06:39:35.665Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-09-12T06:39:35.860Z][INFO] project:list-packages --> 200 (195 ms)

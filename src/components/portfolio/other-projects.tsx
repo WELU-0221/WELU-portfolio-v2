@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { OtherProject } from "@/data/other-projects";
 
 function OtherProjectCard({ project }: { project: OtherProject }) {
@@ -8,7 +9,7 @@ function OtherProjectCard({ project }: { project: OtherProject }) {
       <p className="mt-1 text-sm text-muted">{project.english}</p>
       <p className="mt-5 text-sm leading-relaxed text-muted">{project.description}</p>
       <ul aria-label="技術棧" className="mt-5 flex flex-wrap gap-x-3 gap-y-2 font-mono text-xs text-muted">{project.tech.map(tech => <li key={tech}>{tech}</li>)}</ul>
-      <span className="mt-auto inline-flex items-center gap-3 pt-8 text-sm">View Details <span aria-hidden="true" className="text-xl">↗</span></span>
+      <Link href={`/projects/${project.slug}/`} className="mt-auto inline-flex items-center gap-3 pt-8 text-sm transition-transform duration-300 hover:translate-x-1 hover:text-accent">View Details <span aria-hidden="true" className="text-xl">↗</span></Link>
     </article>
   </li>;
 }
