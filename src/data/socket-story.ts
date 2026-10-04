@@ -18,4 +18,5 @@ export const socketStoryPoses = {
   summary: { ...socketStart, x: 0.26, y: 0.02, scale: 0.82, ry: 1.1, cx: 0, cy: 3.6, cz: 7.45, vertical: 0.35, light: 0.88 },
 } satisfies Record<string, SocketPose>;
 
-export const socketPartLabels = ["零件3-1", "零件1-1", "零件2-1"] as const;
+// Public labels intentionally avoid exposing the supplied GLB's internal node names.
+export const socketPartLabels = ["COMPONENT 01", "COMPONENT 02", "COMPONENT 03"] as const;

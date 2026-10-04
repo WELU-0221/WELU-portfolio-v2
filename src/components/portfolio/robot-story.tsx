@@ -8,11 +8,25 @@ import { animated, useSpring, useReducedMotion } from "@react-spring/web";
 import { RobotBoundary, RobotModel } from "./robot-model";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { musicExplorationFlow, robotLearnings, robotOutcomes, robotResponsibilities, robotStages, robotStart, robotSystemGroups, robotTags, type RobotPose } from "@/data/robot-story";
+import { robotContributionGroups, robotHero, robotLearnings, robotOutcomes, robotStages, robotStart, robotSystemGroups, robotTags, type RobotPose } from "@/data/robot-story";
 import styles from "./robot-story.module.css";
 
 function Flow({ title, steps }: { title: string; steps: string[] }) {
   return <div className={styles.flow}><h3>{title}</h3><ol>{steps.map(step => <li key={step}>{step}</li>)}</ol></div>;
+}
+
+function OverviewStage() {
+  return <div data-robot-copy className={`${styles.copy} ${styles.overviewStage}`}>
+    <p className={styles.label}>02 / OVERVIEW</p>
+    <h2 id="robot-overview-title" className={styles.title}>從結構，到節奏。</h2>
+    <p className={styles.text}>本專題以多自由度跳舞機器人為主題，整合機械結構、硬體與感測系統，並探索音樂節奏資訊與機器人動作之間的對應方式。</p>
+    <div className={styles.projectScope} aria-label="Project scope">
+      <article><span>01</span><strong>MECHANICAL</strong><p>SolidWorks<br />Robot Assembly<br />Joint Arrangement</p></article>
+      <article><span>02</span><strong>HARDWARE / SENSING</strong><p>Hardware Layout<br />IMU<br />FSR-402</p></article>
+      <article><span>03</span><strong>MUSIC / MOTION</strong><p>Spectrogram<br />Beat / Tempo / Rhythm<br />Motion Mapping Exploration</p></article>
+    </div>
+    <p className={styles.scopeConnection}>MECHANICAL ＋ HARDWARE / SENSING ＋ MUSIC / MOTION <i>↓</i> <b>ROBOT MOTION</b></p>
+  </div>;
 }
 
 function ContributionStage() {
@@ -22,11 +36,11 @@ function ContributionStage() {
       <h2 id="robot-role-title" className={styles.title}>我實際負責的部分。<br /><span className="text-muted">My Contribution</span></h2>
       <p className={styles.text}>從機構與硬體配置，到音樂特徵研究與專題協調；以下內容聚焦我的個人工作範圍。</p>
     </header>
-    <ol className={styles.contributionGrid}>{robotResponsibilities.map((item, index) => <li key={item} data-contribution-item><span>{String(index + 1).padStart(2, "0")}</span><strong>{item}</strong></li>)}</ol>
+    <ol className={styles.contributionGrid}>{robotContributionGroups.map(group => <li key={group.number} data-contribution-item><span>{group.number}</span><div><strong>{group.title}</strong><ul>{group.items.map(item => <li key={item}>{item}</li>)}</ul></div></li>)}</ol>
     <div className={styles.scopeDivider}>
-      <div><span>INDIVIDUAL SCOPE</span><strong>Mechanical design · Hardware layout · Music feature research</strong></div>
+      <div><span>INDIVIDUAL SCOPE</span><strong>Mechanical Design · Hardware Layout · Music Feature Research · Project Coordination</strong></div>
       <div><span>PROJECT / TEAM SYSTEM</span><strong>ROS · RViz · Gazebo · Reinforcement Learning research</strong></div>
-      <p>團隊系統技術不代表全部由我個人獨立完成。</p>
+      <p>團隊系統技術不代表全部由我個人獨立完成。<br />Team-level technologies do not imply individual ownership of every subsystem.</p>
     </div>
   </div>;
 }
@@ -86,7 +100,7 @@ function LearningStage() {
 
 export function RobotStory() {
   const reduced = useReducedMotion();
-  const entrance = useSpring({ from: { opacity: 0 }, opacity: 1, immediate: reduced === true, config: { tension: 80, friction: 26 } });
+  const entrance = useSpring({ opacity: 1, immediate: true, config: { tension: 80, friction: 26 } });
   const root = useRef<HTMLDivElement>(null);
   const motion = useRef<RobotPose>({ ...robotStart });
   const invalidate = useRef<(() => void) | null>(null);
@@ -100,7 +114,11 @@ export function RobotStory() {
         if (!match.conditions?.motion) return;
         const desktop = Boolean(match.conditions.desktop);
         const pages = gsap.utils.toArray<HTMLElement>("[data-robot-page]", element);
-        const storyPoses = [robotStart, robotStart, { ...robotStart, scale: .82 }, ...robotStages.slice(1).map(stage => stage.pose)];
+        const overviewPage = element.querySelector<HTMLElement>("#robot-overview");
+        const contributionPage = element.querySelector<HTMLElement>("#robot-responsibilities");
+        const mechanicalPage = element.querySelector<HTMLElement>("#robot-mechanical");
+        const canvas = element.querySelector<HTMLElement>(`.${styles.canvas}`);
+        const storyPoses = [robotHero, robotStart, { ...robotStart, scale: .82 }, ...robotStages.slice(1).map(stage => stage.pose)];
         const poses = desktop ? storyPoses : storyPoses.map(pose => ({ ...pose, x: pose.x * .12, y: pose.y * .25, scale: Math.min(pose.scale, 1.02), rx: pose.rx * .5, yaw: pose.yaw * .55, rz: pose.rz * .4, cx: 3.4, cy: 1.75, cz: Math.max(pose.cz, 8.45), ty: pose.ty * .25 }));
         const timeline = gsap.timeline({
           defaults: { ease: "none" },
@@ -113,6 +131,14 @@ export function RobotStory() {
           const position = index - .75;
           timeline.to(motion.current, { ...poses[index], duration: .75 }, position);
         });
+        if (canvas && overviewPage && mechanicalPage) {
+          gsap.to(canvas, { autoAlpha: 0, scrollTrigger: { trigger: overviewPage, start: "top 76%", end: "top 44%", scrub: .25, invalidateOnRefresh: true } });
+          gsap.to(canvas, { autoAlpha: 1, scrollTrigger: { trigger: mechanicalPage, start: "top 74%", end: "top 46%", scrub: .25, invalidateOnRefresh: true } });
+        }
+        if (canvas && contributionPage && mechanicalPage) {
+          gsap.to(canvas, { autoAlpha: 0, scrollTrigger: { trigger: contributionPage, start: "top 74%", end: "top 46%", scrub: .25, invalidateOnRefresh: true } });
+          gsap.to(canvas, { autoAlpha: 1, scrollTrigger: { trigger: mechanicalPage, start: "top 74%", end: "top 46%", scrub: .25, invalidateOnRefresh: true } });
+        }
         timeline.to({}, { duration: .25 }, pages.length - 1);
         pages.forEach((page, index) => {
           const copy = page.querySelector<HTMLElement>("[data-robot-copy]");
@@ -139,13 +165,13 @@ export function RobotStory() {
     <div className={styles.viewport} aria-label="AI Dancing Robot 3D 展示">
       <animated.div className={styles.canvas} style={entrance}>
         <RobotBoundary><Canvas frameloop="demand" dpr={[1, 1.5]} camera={{ position: [3.2, 1.8, 7.5], fov: 35, near: .01, far: 100 }} gl={{ alpha: true, antialias: true }} onCreated={state => { invalidate.current = state.invalidate; state.gl.setClearAlpha(0); }} fallback={<p className={styles.status}>此瀏覽器無法顯示 WebGL 模型，請繼續閱讀專案。</p>}>
-          <ambientLight intensity={1.45} /><hemisphereLight groundColor="#c9d0d4" color="#fffaf1" intensity={1.55} /><directionalLight position={[5, 8, 5]} intensity={2.25} /><directionalLight position={[-4, 5, -2]} intensity={1.05} /><pointLight position={[-3, 4, 4]} intensity={0.7} color="#8e9bd6" distance={12} />
+          <ambientLight intensity={0.78} /><hemisphereLight groundColor="#aeb5ba" color="#fffaf1" intensity={1.08} /><directionalLight position={[5, 8, 5]} intensity={3.35} /><directionalLight position={[-4, 4, -2]} intensity={1.5} /><pointLight position={[-3, 4, 4]} intensity={0.82} color="#8aaec0" distance={12} />
           <Suspense fallback={<Html center><span className="text-sm text-muted">Loading Robot…</span></Html>}><RobotModel motion={motion} renderFrameRef={invalidate} /></Suspense>
         </Canvas></RobotBoundary>
       </animated.div>
     </div>
     <div className={styles.pages}>
-      <header data-robot-page className={styles.page}>
+      <header data-robot-page className={`${styles.page} ${styles.heroPage}`}>
         <div data-robot-copy className={styles.copy}>
           <Link href="/#projects" className="mb-8 inline-block text-sm text-muted">← Back to Projects</Link>
           <p className={styles.label}>01 / PROJECT HERO · W / 03</p>
@@ -155,13 +181,10 @@ export function RobotStory() {
           <Link href="#robot-overview" className={styles.link}>Scroll to explore ↓</Link>
         </div>
       </header>
-      <section id="robot-overview" data-robot-page className={styles.page} aria-labelledby="robot-overview-title"><div data-robot-copy className={styles.copy}>
-        <p className={styles.label}>{robotStages[0].label}</p><h2 id="robot-overview-title" className={styles.title}>{robotStages[0].title}</h2><p className={styles.text}>{robotStages[0].text}</p>
-        <p className={styles.text}>這是一項跨領域團隊專題：整合機械結構、硬體配置、音樂分析與 AI 方法，探索讓機器人依音樂節奏產生對應動作。</p>
-      </div></section>
+      <section id="robot-overview" data-robot-page className={styles.page} aria-labelledby="robot-overview-title"><OverviewStage /></section>
       <section id="robot-responsibilities" data-robot-page className={styles.page} aria-labelledby="robot-role-title"><ContributionStage /></section>
       {robotStages.slice(1).map(stage => <section key={stage.id} id={`robot-${stage.id}`} data-robot-page className={styles.page} aria-labelledby={`robot-${stage.id}-title`}>
-        {stage.id === "result" ? <ResultStage /> : stage.id === "learning" ? <LearningStage /> : stage.id === "system" ? <SystemMap /> : stage.id === "music" ? <div data-robot-copy className={styles.copy} data-side={stage.side}><p className={styles.label}>{stage.label}</p><h2 id={`robot-${stage.id}-title`} className={styles.title}>音樂與 AI 探索<br /><span className="text-muted">Music / AI Exploration</span></h2><p className={styles.text}>From sound to motion.</p><p className={styles.text}>{stage.text}</p><div className={styles.musicWorkflow}>{musicExplorationFlow.map((item, index) => <div key={item} data-music-node className={`${styles.musicNode} ${index === 2 || index === 3 ? styles.researchNode : ""}`}><span>{String(index + 1).padStart(2, "0")}</span><strong>{item}</strong>{index < musicExplorationFlow.length - 1 && <i aria-hidden="true">↓</i>}</div>)}</div><div className={styles.musicVisual} aria-label="Conceptual visualization of audio features"><div className={styles.spectrum} aria-hidden="true">{Array.from({ length: 18 }, (_, index) => <i key={index} />)}</div><div className={styles.beatMarkers} aria-hidden="true"><span /><span /><span /><span /></div><p className="font-mono text-[.6rem] tracking-widest text-muted">CONCEPTUAL VISUALIZATION · NO MEASURED DATA</p></div><p className="mt-5 text-xs leading-relaxed text-muted">My Contribution · 研究音訊轉 Spectrogram、頻譜特徵作為 AI 輸入，以及節奏與機器人動作的對應探索。</p><p className="mt-3 font-mono text-[.65rem] tracking-widest text-muted">RESEARCH / EXPLORATION · CONCEPTUAL VISUALIZATION</p></div> : stage.id === "hardware" ? <div data-robot-copy className={styles.copy} data-side={stage.side}><p className={styles.label}>{stage.label}</p><h2 id={`robot-${stage.id}-title`} className={styles.title}>硬體整合<br /><span className="text-muted">Hardware Integration</span></h2><p className={styles.text}>{stage.text}</p><div className={styles.hardwareCallouts}>{["Controller", "Sensors", "Servo Motors", "Power", "Mechanical Structure"].map((item, index) => <span key={item} className={`${styles.hardwareCallout} ${styles[`callout${index + 1}`]}`}>{item}</span>)}</div><p className="mt-5 text-xs text-muted">工程配置示意，不代表未提供的實際型號或尺寸。</p></div> : stage.id === "sensor" ? <div data-robot-copy className={styles.copy} data-side={stage.side}><p className={styles.label}>{stage.label}</p><h2 id={`robot-${stage.id}-title`} className={styles.title}>感測與平衡<br /><span className="text-muted">Sensor &amp; Balance</span></h2><p className={styles.text}>{stage.text}</p><div className={styles.sensorGrid}><Flow title="ATTITUDE" steps={["IMU", "Robot Attitude"]} /><Flow title="PRESSURE / BALANCE" steps={["FSR-402", "Foot Pressure", "Center of Pressure (COP)"]} /></div><p className="mt-5 text-xs leading-relaxed text-muted">Project / Team System · 感測與平衡資訊屬於整體系統研究，不代表全部由我個人獨立完成。</p><div className={styles.footCallout} aria-hidden="true">FOOT / COP</div></div> : <div data-robot-copy className={styles.copy} data-side={stage.side}>
+        {stage.id === "result" ? <ResultStage /> : stage.id === "learning" ? <LearningStage /> : stage.id === "system" ? <SystemMap /> : stage.id === "music" ? <div data-robot-copy className={`${styles.copy} ${styles.musicStage}`} data-side={stage.side}><p className={styles.label}>{stage.label}</p><h2 id={`robot-${stage.id}-title`} className={styles.title}>音樂與 AI 探索<br /><span className="text-muted">Music / AI Exploration</span></h2><p className={styles.musicKicker}>FROM SOUND TO MOTION</p><p className={styles.text}>{stage.text}</p><div className={styles.musicResearchFlow}><article data-music-node><b>01 / SOUND</b><strong>Music Input<br />Audio Feature Extraction</strong></article><i>→</i><article data-music-node><b>02 / SPECTRAL REPRESENTATION</b><strong>Spectrogram</strong></article><i>→</i><article data-music-node><b>03 / RHYTHM FEATURES</b><strong>Beat / Tempo / Rhythm</strong></article><i>→</i><article data-music-node><b>04 / MOTION EXPLORATION</b><strong>Feature Analysis<br />Motion Mapping Exploration<br />Robot Motion</strong></article></div><p className={styles.researchBoundary}>Research / Exploration · 主要系統以預先規劃動作序列為主；音樂特徵與動作對應仍持續研究。</p></div> : stage.id === "hardware" ? <div data-robot-copy className={styles.copy} data-side={stage.side}><p className={styles.label}>{stage.label}</p><h2 id={`robot-${stage.id}-title`} className={styles.title}>硬體整合<br /><span className="text-muted">Hardware Integration</span></h2><p className={styles.text}>{stage.text}</p><div className={styles.hardwareCallouts}>{["Controller", "Sensors", "Servo Motors", "Power", "Mechanical Structure"].map((item, index) => <span key={item} className={`${styles.hardwareCallout} ${styles[`callout${index + 1}`]}`}>{item}</span>)}</div><p className="mt-5 text-xs text-muted">工程配置示意，不代表未提供的實際型號或尺寸。</p></div> : stage.id === "sensor" ? <div data-robot-copy className={styles.copy} data-side={stage.side}><p className={styles.label}>{stage.label}</p><h2 id={`robot-${stage.id}-title`} className={styles.title}>感測與平衡<br /><span className="text-muted">Sensor &amp; Balance</span></h2><p className={styles.text}>{stage.text}</p><div className={styles.sensorGrid}><Flow title="ATTITUDE" steps={["IMU", "Robot Attitude"]} /><Flow title="PRESSURE / BALANCE" steps={["FSR-402", "Foot Pressure", "Center of Pressure (COP)"]} /></div><p className="mt-5 text-xs leading-relaxed text-muted">Project / Team System · 感測與平衡資訊屬於整體系統研究，不代表全部由我個人獨立完成。</p><div className={styles.footCallout} aria-hidden="true">FOOT / COP</div></div> : <div data-robot-copy className={styles.copy} data-side={stage.side}>
           <p className={styles.label}>{stage.label}</p><h2 id={`robot-${stage.id}-title`} className={styles.title}>{stage.title}</h2>
           <p className={styles.text}>{stage.text}</p>
           {stage.items && <ul className={styles.list}>{stage.items.map(item => <li key={item}>{item}</li>)}</ul>}

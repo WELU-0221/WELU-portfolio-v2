@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
@@ -11,23 +12,18 @@ import { SocketModelViewer } from "./socket-model-viewer";
 import styles from "./socket-story.module.css";
 
 interface Props { project: Project; previous: Project; next: Project; }
-const requirementFlow = ["客戶需求", "測試條件／產品類別", "工程分類", "工程輸入", "針款選擇", "Socket 與 Lid 結構"];
-const blueprintFlow = ["案件資料", "工程輸入", "探針／Device", "工程計算", "CAD 自動化", "驗證", "輸出"];
-const summaryFlow = ["需求", "工程輸入", "人工確認", "工程計算", "CAD 自動化", "驗證", "輸出"];
-const contributionItems = [
-  ["01", "流程定義", "工程需求與自動化流程拆解"],
-  ["02", "工程邏輯", "將可標準化的工程判斷整理為系統流程"],
-  ["03", "自動化整合", "整合 UI、計算流程與 CAD Automation"],
-  ["04", "CAD 自動化", "SolidWorks 自動化流程與模型更新整合"],
-  ["05", "驗證", "流程驗證、錯誤處理與結果確認"],
-  ["06", "系統整合", "讓工程資料、計算與 CAD 成為連續工作流程"],
+const responsibilities = [
+  ["01", "ENGINEERING WORKFLOW", "工程需求與自動化流程拆解"],
+  ["02", "ENGINEERING LOGIC", "將可標準化的工程判斷整理成系統流程"],
+  ["03", "AUTOMATION INTEGRATION", "整合 UI、計算流程與 CAD Automation"],
+  ["04", "VALIDATION & INTEGRATION", "流程驗證、例外處理與結果確認"],
 ] as const;
+// These are de-identified derivatives; originals remain outside public assets.
+const publicEvidenceAvailable = true;
 
-function RealUISlot() {
-  const isDevelopment = process.env.NODE_ENV !== "production";
-  return <div className={styles.uiFrame} aria-label="自動化操作介面預留區">
-    {isDevelopment && <span>REAL AUTOMATION UI — TO BE ADDED</span>}
-  </div>;
+function EvidenceImage({ src, alt, priority = false }: { src: string; alt: string; priority?: boolean }) {
+  if (!publicEvidenceAvailable) return null;
+  return <figure className={styles.evidence}><Image src={src} alt={alt} width={1600} height={900} priority={priority} sizes="(max-width: 767px) 100vw, min(88vw, 1400px)" /></figure>;
 }
 
 export function SocketStory({ project, previous, next }: Props) {
@@ -43,32 +39,27 @@ export function SocketStory({ project, previous, next }: Props) {
     const shell = modelShell.current;
     if (!element || !shell) return;
     const media = gsap.matchMedia();
-    media.add({ desktop: "(min-width: 768px) and (prefers-reduced-motion: no-preference)", mobile: "(max-width: 767px) and (prefers-reduced-motion: no-preference)", reduced: "(prefers-reduced-motion: reduce)" }, context => {
-      const reduce = Boolean(context.conditions?.reduced);
+    media.add({ desktop: "(min-width: 768px) and (prefers-reduced-motion: no-preference)", reduced: "(prefers-reduced-motion: reduce)" }, context => {
+      const reduced = Boolean(context.conditions?.reduced);
       const ctx = gsap.context(() => {
-        const hero = element.querySelector<HTMLElement>("[data-chapter='hero']");
-        const cad = element.querySelector<HTMLElement>("[data-chapter='cad']");
-        const output = element.querySelector<HTMLElement>("[data-chapter='output']");
-        if (!hero || !cad || !output) return;
-        Object.assign(motion.current, socketStart);
+        const contextSection = element.querySelector<HTMLElement>("[data-socket-stage='context']");
+        const cadModel = element.querySelector<HTMLElement>("[data-socket-stage='cad-model']");
+        const output = element.querySelector<HTMLElement>("[data-socket-stage='output']");
+        if (!contextSection || !cadModel || !output) return;
+        Object.assign(motion.current, reduced ? socketStoryPoses.vertical : socketStart);
         gsap.set(shell, { autoAlpha: 1 });
-        gsap.set(labels.current, { autoAlpha: 0, y: 12 });
-
-        if (!reduce) {
-          gsap.to(motion.current, { ry: 0.14, rx: -0.02, duration: 1, ease: "none", onUpdate: () => invalidateRef.current(), scrollTrigger: { trigger: hero, start: "top bottom", end: "bottom top", scrub: 0.8, invalidateOnRefresh: true } });
-          gsap.to(shell, { autoAlpha: 0, duration: 0.2, scrollTrigger: { trigger: hero, start: "bottom 58%", toggleActions: "play none none reverse" } });
-          gsap.to(shell, { autoAlpha: 1, duration: 0.25, scrollTrigger: { trigger: cad, start: "top 65%", toggleActions: "play none none reverse" } });
-          gsap.to(motion.current, { ...socketStoryPoses.cad, duration: 1, ease: "sine.inOut", onUpdate: () => invalidateRef.current(), scrollTrigger: { trigger: cad, start: "top 72%", end: "center center", scrub: 0.7, invalidateOnRefresh: true } });
-          gsap.to(motion.current, { ...socketStoryPoses.assembled, duration: 1, ease: "sine.inOut", onUpdate: () => invalidateRef.current(), scrollTrigger: { trigger: output, start: "top 75%", end: "top 35%", scrub: 0.7, invalidateOnRefresh: true } });
-          const explode = gsap.timeline({ onUpdate: () => invalidateRef.current(), scrollTrigger: { trigger: output, start: "top 35%", end: "bottom 30%", scrub: 0.8, invalidateOnRefresh: true } });
-          explode.to(motion.current, { ...socketStoryPoses.horizontal, duration: 1, ease: "none" })
-            .to(motion.current, { ...socketStoryPoses.vertical, duration: 1, ease: "none" })
-            .to(labels.current, { autoAlpha: 1, y: 0, duration: 0.22 }, 1.72);
-          gsap.to(shell, { autoAlpha: 0, duration: 0.2, scrollTrigger: { trigger: output, start: "bottom 26%", toggleActions: "play none none reverse" } });
-        } else {
-          Object.assign(motion.current, socketStoryPoses.vertical);
-          gsap.set(labels.current, { autoAlpha: 1, y: 0 });
-        }
+        gsap.set(labels.current, { autoAlpha: reduced ? 1 : 0, y: reduced ? 0 : 12 });
+        if (reduced) return;
+        gsap.to(motion.current, { ry: 0.1, rx: -0.02, duration: 1, ease: "none", onUpdate: () => invalidateRef.current(), scrollTrigger: { trigger: contextSection, start: "top bottom", end: "bottom top", scrub: 0.8, invalidateOnRefresh: true } });
+        gsap.to(shell, { autoAlpha: 0, duration: 0.2, scrollTrigger: { trigger: contextSection, start: "bottom 55%", toggleActions: "play none none reverse" } });
+        gsap.to(shell, { autoAlpha: 1, duration: 0.28, scrollTrigger: { trigger: cadModel, start: "top 65%", toggleActions: "play none none reverse" } });
+        gsap.to(motion.current, { ...socketStoryPoses.cad, duration: 1, ease: "sine.inOut", onUpdate: () => invalidateRef.current(), scrollTrigger: { trigger: cadModel, start: "top 75%", end: "center center", scrub: 0.7, invalidateOnRefresh: true } });
+        const explode = gsap.timeline({ onUpdate: () => invalidateRef.current(), scrollTrigger: { trigger: output, start: "top 70%", end: "bottom 25%", scrub: 0.8, invalidateOnRefresh: true } });
+        explode.to(motion.current, { ...socketStoryPoses.assembled, duration: 0.45, ease: "none" })
+          .to(motion.current, { ...socketStoryPoses.horizontal, duration: 0.85, ease: "none" })
+          .to(motion.current, { ...socketStoryPoses.vertical, duration: 0.85, ease: "none" })
+          .to(labels.current, { autoAlpha: 1, y: 0, duration: 0.2 }, 1.95);
+        gsap.to(shell, { autoAlpha: 0, duration: 0.2, scrollTrigger: { trigger: output, start: "bottom 18%", toggleActions: "play none none reverse" } });
       }, element);
       return () => ctx.revert();
     });
@@ -79,43 +70,32 @@ export function SocketStory({ project, previous, next }: Props) {
   return <main id="main" ref={root} className={styles.story}>
     <div ref={modelShell} className={styles.modelShell} aria-label="Socket 組合件 3D 模型"><SocketModelViewer motion={motion} invalidateRef={invalidateRef} /></div>
 
-    <section data-chapter="hero" className={`${styles.section} ${styles.hero}`}>
-      <div className={`${styles.container} ${styles.heroGrid}`}>
-        <div><p className={styles.eyebrow}>01 ／ SOCKET 設計自動化系統</p><h1>Socket Design<br />Automation System</h1><p className={styles.chinese}>{project.title}</p><p className={styles.lead}>From engineering input<br />to validated CAD output.</p><Link href="#requirement" className={styles.textLink}>查看工程流程 ↓</Link></div>
-        <div aria-hidden="true" />
-      </div>
+    <section className={`${styles.section} ${styles.hero}`}>
+      <div className={`${styles.container} ${styles.heroGrid}`}><div><p className={styles.eyebrow}>SOCKET AUTOMATION CASE STUDY</p><h1>{project.title}</h1><p className={styles.subtitle}>Socket Design Automation System</p><p className={styles.lead}>From engineering input<br />to validated CAD output.</p><p className={styles.discipline}>Engineering Project<br />× Mechanical Design<br />× Automation</p></div><div aria-hidden="true" /></div>
     </section>
 
-    <section id="requirement" className={styles.section}>
-      <div className={styles.container}><p className={styles.eyebrow}>02 ／ 從需求到設計輸入</p><h2>FROM REQUIREMENT<br />TO DESIGN INPUT</h2><p className={styles.sectionIntro}>Socket 設計並不是從 CAD 開始，而是從測試需求與工程條件逐步轉換為設計輸入。</p><div className={styles.requirementFlow}>{requirementFlow.map((item, index) => <div key={item}><b>{String(index + 1).padStart(2, "0")}</b><span>{item}</span>{index < requirementFlow.length - 1 && <i>→</i>}</div>)}</div><div className={styles.blueprint}><p>公開版系統藍圖</p>{blueprintFlow.map((item, index) => <span key={item}>{item}{index < blueprintFlow.length - 1 && <i>→</i>}</span>)}</div></div>
-    </section>
-
-    <section className={`${styles.section} ${styles.loopSection}`}>
-      <div className={styles.container}><p className={styles.eyebrow}>03 ／ 工程師確認</p><h2>ENGINEER IN THE LOOP</h2><p className={styles.sectionIntro}>工程師確認案件資料、探針、POD／Device 與 Final Value 後，才進入計算與 CAD 自動化。</p><div className={styles.uiStory}><RealUISlot /><div className={styles.uiAnnotations}><span><b>01</b>案件資料</span><span><b>02</b>探針</span><span><b>03</b>POD／Device</span><span><b>04</b>工程師確認</span></div></div><div className={styles.uiActions}><span><b>F4</b>確認</span><span><b>F5</b>計算</span><span><b>F6</b>套用至 SolidWorks</span></div><p className={styles.caption}>Engineer reviews the engineering inputs before calculation and CAD automation.</p></div>
+    <section data-socket-stage="context" className={`${styles.section} ${styles.contextSection}`}>
+      <div className={`${styles.container} ${styles.contextGrid}`}><div><p className={styles.eyebrow}>01 ／ ENGINEERING CONTEXT</p><h2>FROM REQUIREMENT<br />TO DESIGN INPUT</h2><p className={styles.sectionIntro}>Socket 設計並不是從 CAD 開始，而是從測試需求與工程條件逐步轉換為設計輸入。</p><div className={styles.contextFlow}><div><b>REQUIREMENT</b><span>Test Requirement<br />Product / Test Condition</span></div><i>↓</i><div><b>ENGINEERING DECISION</b><span>Engineering Input<br />Probe Selection</span></div><i>↓</i><div><b>PHYSICAL DESIGN</b><span>Socket / Lid Structure</span></div></div></div><div aria-hidden="true" /></div>
     </section>
 
     <section className={styles.section}>
-      <div className={styles.container}><p className={styles.eyebrow}>04 ／ 工程計算</p><h2>ENGINEERING CALCULATION</h2><p className={styles.sectionIntro}>工程輸入轉換為設計參數。</p><div className={styles.calculationFlow}><div><b>輸入</b><span>Probe</span><span>POD</span><span>Device</span></div><i>→</i><strong>工程計算<br />引擎</strong><i>→</i><div><b>輸出</b><span>GP</span><span>MP</span><span>RT</span><span>Device</span></div></div><div className={styles.fiveLogic}><b>F5</b><span>工程計算</span><i>↓</i><span>UI 輸入</span><i>↓</i><span>Excel-based Calculation Engine</span><i>↓</i><span>Full Recalculation</span><i>↓</i><span>工程結果</span></div><p className={styles.caption}>Engineering formulas and internal parameters are intentionally abstracted.</p></div>
+      <div className={styles.container}><p className={styles.eyebrow}>02 ／ ENGINEER IN THE LOOP</p><h2>ENGINEER IN THE LOOP</h2><p className={styles.sectionIntro}>工程師確認設計輸入後，才進入計算與 CAD 自動化。</p><EvidenceImage src="/images/socket-public/socket-basic-data.png" alt="Socket 自動化系統的基本資料操作介面" priority /><div className={styles.annotations}><span><b>01</b>CASE / BASIC DATA</span><span><b>02</b>DEVICE</span><span><b>03</b>PROBE</span><span><b>04</b>ENGINEER REVIEW</span></div><div className={styles.reviewSequence}><article><p>PROBE PARAMETERS</p><span>Probe geometry and design inputs.</span><EvidenceImage src="/images/socket-public/socket-probe-parameters.png" alt="Socket 探針參數介面" /></article><article><p>POD / DEVICE PARAMETERS</p><span>Device geometry and structural inputs.</span><EvidenceImage src="/images/socket-public/socket-device-parameters.png" alt="Socket Device 參數介面" /></article></div><p className={styles.confirm}><b>F4</b> CONFIRM <span>Engineering inputs reviewed.</span></p></div>
     </section>
 
-    <section data-chapter="cad" className={`${styles.section} ${styles.cadSection}`}>
-      <div className={styles.container}><div className={styles.cadCopy}><p className={styles.eyebrow}>05 ／ CAD 自動化</p><h2>FROM CALCULATION<br />TO PHYSICAL GEOMETRY</h2><p className={styles.sectionIntro}>計算結果透過 SolidWorks 自動化，更新模型並重建組合件。</p></div><div className={styles.cadPath}><b>F6</b><i>↓</i><span>SolidWorks Automation</span><i>↓</i><span>DEVICE</span><i>↓</i><span>GP</span><i>↓</i><span>MP</span><i>↓</i><span>RT</span><i>↓</i><span>Assembly Refresh／Rebuild／Save／Validate</span></div><div className={styles.moduleLine}><span>DEVICE</span><span>GP</span><span>MP</span><span>RT</span></div></div>
+    <section className={styles.section}>
+      <div className={styles.container}><p className={styles.eyebrow}>03 ／ F5 — ENGINEERING CALCULATION</p><h2>F5<br />ENGINEERING CALCULATION</h2><p className={styles.sectionIntro}>確認後，工程輸入進入計算流程。</p><div className={styles.compactLogic}><span>PROBE</span><i>＋</i><span>DEVICE</span><i>＋</i><span>ENGINEERING INPUT</span><b>↓</b><strong>F5<br />EXCEL-BASED CALCULATION ENGINE</strong><b>↓</b><span>GP / MP / RT / DEVICE</span></div><EvidenceImage src="/images/socket-public/socket-calculation-result.png" alt="Socket 工程計算結果介面" /><p className={styles.evidenceCaption}>CALCULATION RESULT ／ GP / MP / RT / DEVICE ／ PARAMETER → RESULT → CAD TARGET</p></div>
     </section>
 
-    <section data-chapter="output" className={`${styles.section} ${styles.outputSection}`}>
-      <div className={`${styles.container} ${styles.outputSticky}`}><div className={styles.outputCopy}><p className={styles.eyebrow}>06 ／ 工程輸出</p><h2>ENGINEERING OUTPUT</h2><p className={styles.sectionIntro}>From calculated parameters to a rebuilt 3D assembly.</p><div className={styles.rebuilt}><b>ASSEMBLY REBUILT</b>{["DEVICE", "GP", "MP", "RT", "ASSEMBLY"].map(item => <span key={item}>{item}<i>✓</i></span>)}</div></div><div className={styles.explodeNote}><span>完整組合</span><i>→</i><span>水平展開</span><i>→</i><span>垂直爆炸視圖</span></div><div ref={labels} className={styles.partLabels}>{socketPartLabels.map((label, index) => <span key={label}><b>{String(index + 1).padStart(2, "0")}</b>{label}<i /></span>)}</div><div className={styles.validationLogic}><b>驗證</b><span>通過<small>封存</small></span><span>失敗<small>紀錄</small></span></div></div>
+    <section className={styles.section}>
+      <div className={styles.container}><p className={styles.eyebrow}>04 ／ F6 — CAD AUTOMATION</p><h2>F6<br />CAD AUTOMATION</h2><p className={styles.sectionIntro}>計算結果直接進入 CAD 自動化流程。</p><div className={styles.cadLogic}><span>CALCULATION RESULT</span><i>↓</i><b>F6</b><i>↓</i><span>SOLIDWORKS AUTOMATION</span><i>↓</i><span>CAD UPDATE</span></div><EvidenceImage src="/images/socket-public/socket-cad-integration.png" alt="Socket SolidWorks 與自動化系統整合畫面" /><div className={styles.cadSequence}><span>DEVICE</span><i>→</i><span>GP</span><i>→</i><span>MP</span><i>→</i><span>RT</span><i>→</i><span>ASSEMBLY REBUILD</span><small>REFRESH / REBUILD / SAVE</small></div></div>
     </section>
 
-    <section className={`${styles.section} ${styles.summarySection}`}>
-      <div className={styles.container}><p className={styles.eyebrow}>07 ／ 系統總結與責任範圍</p><h2>FROM REQUIREMENT<br />TO OUTPUT</h2><div className={styles.summaryFlow}>{summaryFlow.map((item, index) => <span key={item}>{item}{index < summaryFlow.length - 1 && <i>→</i>}</span>)}</div><p className={styles.conclusion}>FROM ENGINEERING REQUIREMENTS<br />TO A REPEATABLE DESIGN WORKFLOW.</p><p className={styles.chineseConclusion}>把工程需求，轉化成可管理、可自動化、可落地的設計流程。</p><div className={styles.contributionGrid}>{contributionItems.map(([number, title, description]) => <article key={number}><b>{number}</b><h3>{title}</h3><p>{description}</p></article>)}</div></div>
-    </section>
+    <section data-socket-stage="cad-model" className={`${styles.section} ${styles.cadModelStage}`}><div className={styles.container}><p className={styles.eyebrow}>REAL CAD → INTERACTIVE ENGINEERING MODEL</p><h2>FROM CALCULATED PARAMETERS<br />TO PHYSICAL GEOMETRY</h2><p className={styles.sectionIntro}>作品集中的 3D 模型用於說明組合件結構與自動化結果，不代表另一套設計。</p></div></section>
 
-    <nav aria-label="專案切換" className={styles.projectNav}><Link href={`/projects/${previous.slug}/`}><small>← {brand.labels.previous}</small><strong>{previous.title}</strong></Link><Link href={`/projects/${next.slug}/`}><small>{brand.labels.next} →</small><strong>{next.title}</strong></Link></nav>
-    <div className={styles.back}><Link href="/#projects">← {brand.labels.back}</Link></div>
+    <section data-socket-stage="output" className={`${styles.section} ${styles.outputSection}`}><div className={`${styles.container} ${styles.outputSticky}`}><div><p className={styles.eyebrow}>05 ／ ENGINEERING OUTPUT</p><h2>ENGINEERING OUTPUT</h2><p className={styles.sectionIntro}>From calculated parameters to a rebuilt assembly.</p><p className={styles.assembled}>ASSEMBLED STATE</p></div><div className={styles.explodeSteps}><span>ASSEMBLED</span><i>↓</i><span>HORIZONTAL EXPLODED VIEW</span><i>↓</i><span>VERTICAL EXPLODED VIEW</span></div><div ref={labels} className={styles.partLabels}>{socketPartLabels.map((label, index) => <span key={label}><b>{String(index + 1).padStart(2, "0")}</b>{label}<i /></span>)}</div><div className={styles.validation}><b>VALIDATION</b><span>PASS<small>✓ Archive</small></span><span>FAIL<small>→ Error Log</small></span></div></div></section>
+
+    <section className={`${styles.section} ${styles.contributionSection}`}><div className={styles.container}><p className={styles.eyebrow}>06 ／ MY CONTRIBUTION</p><h2>MY CONTRIBUTION</h2><p className={styles.contributionLead}>FROM ENGINEERING LOGIC<br />TO AN INTEGRATED DESIGN WORKFLOW.</p><div className={styles.responsibilities}>{responsibilities.map(([number, title, description]) => <article key={number}><b>{number}</b><h3>{title}</h3><p>{description}</p></article>)}</div></div></section>
+
+    <nav aria-label="專案切換" className={styles.projectNav}><Link href={`/projects/${previous.slug}/`}><small>← {brand.labels.previous}</small><strong>{previous.title}</strong></Link><Link href={`/projects/${next.slug}/`}><small>{brand.labels.next} →</small><strong>{next.title}</strong></Link></nav><div className={styles.back}><Link href="/#projects">← {brand.labels.back}</Link></div>
   </main>;
 }
-
-// TODO: SOLIDWORKS_BEFORE_IMAGE
-// TODO: SOLIDWORKS_AFTER_IMAGE
-// TODO: TODO_OUTPUT_LOG_EVIDENCE
-// TODO: TODO_MY_CONTRIBUTION

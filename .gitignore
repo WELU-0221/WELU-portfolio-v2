@@ -40,5 +40,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Local raw engineering evidence. Keep only de-identified derivative assets in public/.
+/.private/
+
 # Unity generated files
 3D/WELU_3D_Showcase/Library/

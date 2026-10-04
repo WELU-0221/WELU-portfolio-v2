@@ -93,7 +93,7 @@ export function SocketProjectPreview({ active, reduceMotion }: { active: boolean
     <div className="relative aspect-[4/3] w-full overflow-hidden bg-foreground text-inverse" role="img" aria-label="Socket 設計自動化系統 3D 模型預覽">
       <div className="absolute inset-x-5 top-5 z-10 flex justify-between gap-4 border-b border-inverse/25 pb-4 font-mono text-xs tracking-widest">
         <span>W / 01</span>
-        <span>PROJECT VISUAL</span>
+        <span>SOCKET ASSEMBLY</span>
       </div>
 
       <div className="absolute inset-0 translate-y-2 md:translate-y-3">
